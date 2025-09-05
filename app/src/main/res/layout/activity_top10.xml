@@ -22,28 +22,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75" />
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarTop10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent"
         app:title="Top 10"
+        app:titleCentered="true"
         app:titleTextColor="@color/black">
-
-    </androidx.appcompat.widget.Toolbar>
+     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/toolbarTop10"
+        app:layout_constraintBottom_toTopOf="@+id/botonContinuarGracias"
         app:layout_constraintEnd_toEndOf="@id/toolbarTop10"
         app:layout_constraintStart_toStartOf="@id/toolbarTop10"
         app:layout_constraintTop_toBottomOf="@id/toolbarTop10"
-        app:layout_constraintVertical_bias="0.0" />
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
