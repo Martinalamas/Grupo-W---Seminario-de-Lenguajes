@@ -21,8 +21,8 @@ class GraciasActivity : AppCompatActivity() {
             insets
         }
 
-        val botonVolver = findViewById<AppCompatButton>(R.id.botonVolverTop10)
-        botonVolver.setOnClickListener {
+        val botonVolverTop10 = findViewById(R.id.botonVolverTop10)
+        botonVolverTop10.setOnClickListener {
             val intent = Intent(this, Top10Activity::class.java)
             startActivity(intent)
         }
