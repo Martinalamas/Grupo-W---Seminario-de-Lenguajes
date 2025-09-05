@@ -7,4 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".Top10Activity">
 
+    <Button
+        android:id="@+id/botonContinuarGracias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        android:backgroundTint="#1DB954"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
