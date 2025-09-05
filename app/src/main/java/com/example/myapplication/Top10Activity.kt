@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,5 +17,11 @@ class Top10Activity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        //val botonContinuarGracias = findViewById(R.id.botonContinuarGracias)
+        //botonContinuarGracias.setOnClickListener {
+        //    val intent = Intent(this, GraciasActivity::class.java)
+        //    startActivity(intent)
+        }
+
     }
-}
