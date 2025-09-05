@@ -15,9 +15,6 @@
             android:name=".GraciasActivity"
             android:exported="true" />
         <activity
-            android:name=".Top10Activity"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
