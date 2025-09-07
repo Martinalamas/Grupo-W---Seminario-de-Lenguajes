@@ -5,8 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 
 class CancionAdapter(
     private val canciones: MutableList<Cancion>,
@@ -16,8 +18,9 @@ class CancionAdapter(
     class CancionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtTitulo: TextView = view.findViewById(R.id.tv_cancion)
         val txtArtista: TextView = view.findViewById(R.id.tv_artista)
+        val txtDuracion: TextView = view.findViewById(R.id.dc_duracion)
         val txtTop: TextView = view.findViewById(R.id.tv_top)
-        val txtDuracion: TextView = view.findViewById(R.id.tv_duracion)
+        val container: LinearLayout = view.findViewById(R.id.contenedorCancion)
     }
 
     override fun getItemCount(): Int = canciones.size
@@ -33,6 +36,13 @@ class CancionAdapter(
         holder.txtTitulo.text = item.titulo
         holder.txtArtista.text = item.artista
         holder.txtTop.text = item.top.toString()
+        holder.txtDuracion.text = item.duracion
+
+       holder.container.setOnClickListener{
+           val ctx = holder.itemView.context
+           val i = Intent(ctx, Detalle_CancionActivity)
+
+       }
 
         holder.itemView.setOnClickListener {
             val i = Intent(holder.itemView.context, Detalle_CancionActivity::class.java)

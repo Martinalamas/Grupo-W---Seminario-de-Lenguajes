@@ -13,39 +13,40 @@
         android:id="@+id/DNombreCancion"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:gravity="center"
         android:text="Nombre de la cancion"
         android:textColor="@color/white"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
     </TextView>
 
     <TextView
         android:id="@+id/DArtista"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Artista"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/DNombreCancion"
-        app:layout_constraintStart_toStartOf="@+id/DNombreCancion"
         app:layout_constraintEnd_toEndOf="@id/DNombreCancion"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="@+id/DNombreCancion"
+        app:layout_constraintTop_toBottomOf="@+id/DNombreCancion">
     </TextView>
 
     <TextView
+        android:id="@+id/dc_duracion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="01:43"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/DArtista"
-        app:layout_constraintStart_toStartOf="@+id/DArtista"
         app:layout_constraintEnd_toEndOf="@id/DArtista"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="@+id/DArtista"
+        app:layout_constraintTop_toBottomOf="@+id/DArtista">
     </TextView>
 
 
