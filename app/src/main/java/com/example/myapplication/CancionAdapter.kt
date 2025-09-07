@@ -17,6 +17,7 @@ class CancionAdapter(
         val txtTitulo: TextView = view.findViewById(R.id.tv_cancion)
         val txtArtista: TextView = view.findViewById(R.id.tv_artista)
         val txtTop: TextView = view.findViewById(R.id.tv_top)
+        val txtDuracion: TextView = view.findViewById(R.id.tv_duracion)
     }
 
     override fun getItemCount(): Int = canciones.size

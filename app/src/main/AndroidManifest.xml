@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".Detalle_CancionActivity"
+            android:exported="false" />
+        <activity
             android:name=".Top10Activity"
             android:exported="true">
             <intent-filter>
@@ -21,14 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Detalle_CancionActivity"
-            android:exported="false" />
-        <activity
             android:name=".GraciasActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

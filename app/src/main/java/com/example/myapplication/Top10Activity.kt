@@ -49,15 +49,15 @@ class Top10Activity : AppCompatActivity() {
 
 private fun getCanciones(): MutableList<Cancion>{
     var canciones: MutableList<Cancion> = ArrayList()
-    canciones.add(Cancion(titulo = "HOLA PERDIDA",1, artista = "Luck Ra & Khea"))
-    canciones.add(Cancion(titulo = "Piel",2, artista = "Tiago PZK & Ke Personaje"))
-    canciones.add(Cancion(titulo = "LUNA",3, artista = "Feid & ATL Jacob"))
-    canciones.add(Cancion(titulo = "Que me falte todo",4, artista = "Luck Ra & Abel Pintos"))
-    canciones.add(Cancion(titulo = "Tu Misterioso Alguien",5, artista = "Miranda!"))
-    canciones.add(Cancion(titulo = "7 VIDAS",6, artista = "Maria Becerra"))
-    canciones.add(Cancion(titulo = "La_Original.mp3",7, artista = "Emilia & TINI"))
-    canciones.add(Cancion(titulo = "Como Eran Las Cosas",8, artista = "Babasonicos"))
-    canciones.add(Cancion(titulo = "Baile Inolvidable",9, artista = "Bad Bunny"))
-    canciones.add(Cancion(titulo = "Amor de Vago",10, artista = "La T y La M, Malandro"))
+    canciones.add(Cancion(titulo = "HOLA PERDIDA",1, artista = "Luck Ra & Khea", duracion = "3:12"))
+    canciones.add(Cancion(titulo = "Piel",2, artista = "Tiago PZK & Ke Personaje", duracion = "2:58"))
+    canciones.add(Cancion(titulo = "LUNA",3, artista = "Feid & ATL Jacob", duracion = "3:45"))
+    canciones.add(Cancion(titulo = "Que me falte todo",4, artista = "Luck Ra & Abel Pintos", duracion = "3:20"))
+    canciones.add(Cancion(titulo = "Tu Misterioso Alguien",5, artista = "Miranda!", duracion = "4:04"))
+        canciones.add(Cancion(titulo = "7 VIDAS",6, artista = "Maria Becerra", duracion = "2:24"))
+    canciones.add(Cancion(titulo = "La_Original.mp3",7, artista = "Emilia & TINI", duracion = "2:20"))
+    canciones.add(Cancion(titulo = "Como Eran Las Cosas",8, artista = "Babasonicos", duracion = "4:00"))
+    canciones.add(Cancion(titulo = "Baile Inolvidable",9, artista = "Bad Bunny", duracion = "6:07"))
+    canciones.add(Cancion(titulo = "Amor de Vago",10, artista = "La T y La M, Malandro", duracion = "3:08'"))
     return canciones
 }
