@@ -16,7 +16,7 @@
         android:background="@color/white"
         app:title="Top 10"
         app:titleCentered="true"
-        app:titleTextColor="@color/black"></com.google.android.material.appbar.MaterialToolbar>
+        app:titleTextColor="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:paddingTop="12dp"
@@ -26,7 +26,7 @@
         android:layout_weight="1"
         android:background="@color/black"
         tools:itemCount="10"
-        tools:listitem="@layout/item_cancion"></androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/item_cancion" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/botonContinuar"
@@ -38,3 +38,4 @@
         android:textColor="@color/white" />
 
 </LinearLayout>
+

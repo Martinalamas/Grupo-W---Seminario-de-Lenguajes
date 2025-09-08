@@ -21,6 +21,7 @@ class Top10Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_top10)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -41,20 +42,19 @@ class Top10Activity : AppCompatActivity() {
         val lm = LinearLayoutManager(this)
         rvTop10Activity.layoutManager = lm
 
-
         cancionesAdapter = CancionAdapter(getCanciones(), this)
         rvTop10Activity.adapter = cancionesAdapter
     }
 }
 
-private fun getCanciones(): MutableList<Cancion>{
-    var canciones: MutableList<Cancion> = ArrayList()
+private fun getCanciones(): MutableList<Cancion> {
+    val canciones: MutableList<Cancion> = ArrayList()
     canciones.add(Cancion(titulo = "HOLA PERDIDA",1, artista = "Luck Ra & Khea", duracion = "3:12"))
     canciones.add(Cancion(titulo = "Piel",2, artista = "Tiago PZK & Ke Personaje", duracion = "2:58"))
     canciones.add(Cancion(titulo = "LUNA",3, artista = "Feid & ATL Jacob", duracion = "3:45"))
     canciones.add(Cancion(titulo = "Que me falte todo",4, artista = "Luck Ra & Abel Pintos", duracion = "3:20"))
     canciones.add(Cancion(titulo = "Tu Misterioso Alguien",5, artista = "Miranda!", duracion = "4:04"))
-        canciones.add(Cancion(titulo = "7 VIDAS",6, artista = "Maria Becerra", duracion = "2:24"))
+    canciones.add(Cancion(titulo = "7 VIDAS",6, artista = "Maria Becerra", duracion = "2:24"))
     canciones.add(Cancion(titulo = "La_Original.mp3",7, artista = "Emilia & TINI", duracion = "2:20"))
     canciones.add(Cancion(titulo = "Como Eran Las Cosas",8, artista = "Babasonicos", duracion = "4:00"))
     canciones.add(Cancion(titulo = "Baile Inolvidable",9, artista = "Bad Bunny", duracion = "6:07"))

@@ -13,6 +13,15 @@
         android:theme="@style/Theme.MyApplication">
 
         <activity
+            android:name=".Top10Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Registro2"
+            android:exported="false" />
+        <activity
+            android:name=".Registro"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
