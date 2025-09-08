@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:context=".Detalle_CancionActivity">
+
+    <TextView
+        android:id="@+id/DNombreCancion"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Nombre de la cancion"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/DArtista"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Artista"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/DNombreCancion"
+        app:layout_constraintStart_toStartOf="@+id/DNombreCancion"
+        app:layout_constraintTop_toBottomOf="@+id/DNombreCancion">
+    </TextView>
+
+    <TextView
+        android:id="@+id/dc_duracion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="01:43"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/DArtista"
+        app:layout_constraintStart_toStartOf="@+id/DArtista"
+        app:layout_constraintTop_toBottomOf="@+id/DArtista">
+    </TextView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
