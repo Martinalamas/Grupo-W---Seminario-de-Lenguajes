@@ -14,8 +14,6 @@ import androidx.core.view.WindowInsetsCompat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-
-
 class Registro : AppCompatActivity() {
 
     //Declaración de variables
@@ -24,7 +22,6 @@ class Registro : AppCompatActivity() {
     lateinit var correo : EditText
     lateinit var fecha : EditText
     lateinit var continuar : Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,94 +40,56 @@ class Registro : AppCompatActivity() {
         fecha = findViewById(R.id.idFecha)
         continuar = findViewById(R.id.btnContinuar)
 
-
         //Al dar click, aparece el calendario para seleccionar la fecha de nacimiento
-        //y se muestra en el EditText correspondiente
         fecha.setOnClickListener{
             mostrarFecha()
         }
 
-
-        //Al dar click, se valida que los campos no esten vacios, que el correo sea valido
-        //y la edad sea mayor a 13 años. Si no se cumple alguna de las condiciones, se muestra
-        //el error correspondiente. Si se cumple, se muestra un mensaje de confirmacion y se
-        //inicia la actividad Registro2
-
+        //Validaciones y navegación a Registro2
         continuar.setOnClickListener{
             val nombreString = nombre.text.toString()
             val apellidoString = apellido.text.toString()
             val correoString = correo.text.toString()
             val fechaString = fecha.text.toString()
 
-            //Validacion de los campos
+            //Validación de campos
             if (nombreString.isEmpty() || apellidoString.isEmpty() || correoString.isEmpty() || fechaString.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
-                if (nombreString.isEmpty()) {
-                    nombre.error = "Por favor, ingrese su nombre"
-                } else {
-                     nombre.error = null
-
-                }
-                if (apellidoString.isEmpty()) {
-                    apellido.error = "Por favor, ingrese su apellido"
-
-                } else {
-                    apellido.error = null
-
-                }
-                if (correoString.isEmpty()) {
-                    correo.error = "Por favor, ingrese su correo"
-                } else {
-                    correo.error = null;
-                    }
-                if (fechaString.isEmpty()) {
-                    fecha.error = "Por favor, ingrese la fecha"
-                } else {
-                    fecha.error = null
-
-                }
-
+                if (nombreString.isEmpty()) nombre.error = "Por favor, ingrese su nombre" else nombre.error = null
+                if (apellidoString.isEmpty()) apellido.error = "Por favor, ingrese su apellido" else apellido.error = null
+                if (correoString.isEmpty()) correo.error = "Por favor, ingrese su correo" else correo.error = null
+                if (fechaString.isEmpty()) fecha.error = "Por favor, ingrese la fecha" else fecha.error = null
                 return@setOnClickListener
             }
 
-            //Validacion de correo: si no contiene @, hay error
+            //Validación de correo
             if (!correoString.contains("@")) {
-                Toast.makeText(this, "Debe ingresar un correo valido", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Debe ingresar un correo valido", Toast.LENGTH_SHORT).show()
                 correo.error = "Por favor, ingresar un correo valido"
                 return@setOnClickListener
             } else {
                 correo.error = null
             }
 
-            //Validacion de edad: si es menor de 13 años, hay error
+            //Validación de edad
             val edad = calcularEdad(fechaString)
             if (fechaString.isNotEmpty() && edad < 13) {
                 fecha.error = "Debes tener al menos 13 años"
-                Toast.makeText(
-                    this,
-                    "Debes tener al menos 13 años para registrarte",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Debes tener al menos 13 años para registrarte", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            //Vinculación con Registro2 y guardado de nombre y apellido
+            //Intent a Registro2
             Toast.makeText(this, "Continuaremos con tu registro", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Registro2::class.java)
             intent.putExtra("nombre", nombreString)
             intent.putExtra("apellido", apellidoString)
             startActivity(intent)
             finish()
-
-
-                }
-
-
+        }
     }
 
-
-    //Función para mostrar el calendario y seleccionar la fecha de nacimiento
+    //Función para mostrar el calendario
     private fun mostrarFecha() {
         val calendario = Calendar.getInstance()
         val anioActual = calendario.get(Calendar.YEAR)
@@ -142,28 +101,23 @@ class Registro : AppCompatActivity() {
             { _, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
                 val calendarioSeleccionado = Calendar.getInstance()
                 calendarioSeleccionado.set(anioSeleccionado, mesSeleccionado, diaSeleccionado)
-
-                // Formateo de la fecha para mostrarla en el EditText
                 val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val fechaFormateada = formatoFecha.format(calendarioSeleccionado.time)
-
-                fecha.setText(fechaFormateada) // Actualiza el EditText con la fecha seleccionada
-                fecha.error = null // Limpia el error si la fecha es válida
+                fecha.setText(fechaFormateada)
+                fecha.error = null
             },
             anioActual,
             mesActual,
             diaActual
         )
 
-        //No permite seleccionar una fecha futura
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
-
         datePickerDialog.show()
     }
 
-    //Función para calcular la edad a partir de la fecha de nacimiento
+    //Función para calcular la edad
     private fun calcularEdad(fechaNacimiento: String): Int {
-        if (fechaNacimiento.isEmpty()) return 0;
+        if (fechaNacimiento.isEmpty()) return 0
         val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val fechaNacimientoDate = formatoFecha.parse(fechaNacimiento) ?: return 0
 
@@ -181,10 +135,6 @@ class Registro : AppCompatActivity() {
 
         return edad
     }
-
-    }
-
-
-
+}
 
 

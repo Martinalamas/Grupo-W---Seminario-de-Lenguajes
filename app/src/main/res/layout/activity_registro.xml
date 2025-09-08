@@ -18,7 +18,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
-        android:text= "¡Registrate para poder escuchar tu música favorita!"
+        android:text="¡Registrate para poder escuchar tu música favorita!"
         android:textSize="25sp"
         android:textColor="#1DB954" />
 
@@ -119,7 +119,6 @@
         android:focusable="false"
         android:clickable="true" />
 
-
     <Button
         android:id="@+id/btnContinuar"
         android:layout_width="match_parent"
@@ -130,9 +129,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp" >
-
-    </Button>
-
+        android:layout_marginBottom="15dp" />
 
 </LinearLayout>
+

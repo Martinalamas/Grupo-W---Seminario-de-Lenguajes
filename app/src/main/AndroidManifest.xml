@@ -22,6 +22,12 @@
             android:name=".Registro"
             android:exported="true" />
         <activity
+            android:name=".Registro"
+            android:exported="false" />
+        <activity
+            android:name=".TerminosYCondiciones"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
