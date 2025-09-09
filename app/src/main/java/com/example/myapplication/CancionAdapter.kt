@@ -18,9 +18,7 @@ class CancionAdapter(
     class CancionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtTitulo: TextView = view.findViewById(R.id.tv_cancion)
         val txtArtista: TextView = view.findViewById(R.id.tv_artista)
-        val txtDuracion: TextView = view.findViewById(R.id.dc_duracion)
         val txtTop: TextView = view.findViewById(R.id.tv_top)
-        val container: LinearLayout = view.findViewById(R.id.contenedorCancion)
     }
 
     override fun getItemCount(): Int = canciones.size
@@ -36,20 +34,14 @@ class CancionAdapter(
         holder.txtTitulo.text = item.titulo
         holder.txtArtista.text = item.artista
         holder.txtTop.text = item.top.toString()
-        holder.txtDuracion.text = item.duracion
-
-       holder.container.setOnClickListener{
-           val ctx = holder.itemView.context
-           val i = Intent(ctx, Detalle_CancionActivity)
-
-       }
 
         holder.itemView.setOnClickListener {
             val i = Intent(holder.itemView.context, Detalle_CancionActivity::class.java)
-            i.putExtra("top", item.top)
-            i.putExtra("titulo", item.titulo)
-            i.putExtra("artista", item.artista)
-            holder.itemView.context.startActivity(i)
+            val ctx = holder.itemView.context
+            i.putExtra("titulo",item.titulo)
+            i.putExtra("artista",item.artista)
+            i.putExtra("duracion",item.duracion)
+            ctx.startActivity(i)
         }
     }
 }

@@ -21,7 +21,7 @@ class Top10Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_top10)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.top10Act)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -54,7 +54,7 @@ private fun getCanciones(): MutableList<Cancion>{
     canciones.add(Cancion(titulo = "LUNA",3, artista = "Feid & ATL Jacob", duracion = "3:45"))
     canciones.add(Cancion(titulo = "Que me falte todo",4, artista = "Luck Ra & Abel Pintos", duracion = "3:20"))
     canciones.add(Cancion(titulo = "Tu Misterioso Alguien",5, artista = "Miranda!", duracion = "4:04"))
-        canciones.add(Cancion(titulo = "7 VIDAS",6, artista = "Maria Becerra", duracion = "2:24"))
+    canciones.add(Cancion(titulo = "7 VIDAS",6, artista = "Maria Becerra", duracion = "2:24"))
     canciones.add(Cancion(titulo = "La_Original.mp3",7, artista = "Emilia & TINI", duracion = "2:20"))
     canciones.add(Cancion(titulo = "Como Eran Las Cosas",8, artista = "Babasonicos", duracion = "4:00"))
     canciones.add(Cancion(titulo = "Baile Inolvidable",9, artista = "Bad Bunny", duracion = "6:07"))
