@@ -1,33 +1,37 @@
-package com.example.mastroberti_tp
+package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class InicioSesion_Activity : AppCompatActivity() {
 
 
-    // Declara las variables para las vistas
-    private lateinit var nombreUsuarioEditText: EditText
-    private lateinit var contrasenaEditText: EditText
-    private lateinit var verificacionCheckBox: CheckBox
-    private lateinit var botonInicioSesion: Button
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Declara las variables para las vistas
+        lateinit var nombreUsuarioEditText: EditText
+        lateinit var contrasenaEditText: EditText
+        lateinit var verificacionCheckBox: CheckBox
+        lateinit var botonInicioSesion: Button
+
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inicio_sesion) // Asegúrate de que este nombre de layout sea correcto
-
-
-
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_inicio_sesion)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         // Inicializa las vistas usando findViewById
-
-
         nombreUsuarioEditText = findViewById(R.id.NombreUsuario)
         contrasenaEditText = findViewById(R.id.Contrasena)
         verificacionCheckBox = findViewById(R.id.Verificacion)
@@ -37,12 +41,9 @@ class InicioSesion_Activity : AppCompatActivity() {
         // Configurar el listener para el botón de Iniciar Sesión
         botonInicioSesion.setOnClickListener {
 
-
             val nombreUsuario = nombreUsuarioEditText.text.toString()
             val contrasena = contrasenaEditText.text.toString()
             val recordarUsuario = verificacionCheckBox.isChecked
-
-
 
 
             //  Lógica de Validación (Ejemplo Básico)
@@ -61,7 +62,7 @@ class InicioSesion_Activity : AppCompatActivity() {
             //Inicio de sesion.
 
 
-            if (nombreUsuario == "usuario" && contrasena == "password") {
+            if (!nombreUsuario.isEmpty() && !contrasena.isEmpty()) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
 
 
@@ -70,6 +71,9 @@ class InicioSesion_Activity : AppCompatActivity() {
 
 
                 }
+                val intent = Intent(this, Top10Activity::class.java)
+                startActivity(intent)
+                finish()
 
 
 
@@ -94,6 +98,3 @@ class InicioSesion_Activity : AppCompatActivity() {
 
 
 }
-
-
-

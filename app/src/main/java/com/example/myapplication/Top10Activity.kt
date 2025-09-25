@@ -2,10 +2,11 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,19 +17,19 @@ class Top10Activity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
     lateinit var rvTop10Activity: RecyclerView
     lateinit var cancionesAdapter: CancionAdapter
+    lateinit var botonContinuar : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_top10)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rvTop10)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val botonContinuar = findViewById<AppCompatButton>(R.id.botonContinuar)
+        botonContinuar = findViewById<AppCompatButton>(R.id.botonContinuar)
         botonContinuar.setOnClickListener {
             val intent = Intent(this, GraciasActivity::class.java)
             startActivity(intent)
@@ -42,13 +43,14 @@ class Top10Activity : AppCompatActivity() {
         val lm = LinearLayoutManager(this)
         rvTop10Activity.layoutManager = lm
 
+
         cancionesAdapter = CancionAdapter(getCanciones(), this)
         rvTop10Activity.adapter = cancionesAdapter
     }
 }
 
-private fun getCanciones(): MutableList<Cancion> {
-    val canciones: MutableList<Cancion> = ArrayList()
+private fun getCanciones(): MutableList<Cancion>{
+    var canciones: MutableList<Cancion> = ArrayList()
     canciones.add(Cancion(titulo = "HOLA PERDIDA",1, artista = "Luck Ra & Khea", duracion = "3:12"))
     canciones.add(Cancion(titulo = "Piel",2, artista = "Tiago PZK & Ke Personaje", duracion = "2:58"))
     canciones.add(Cancion(titulo = "LUNA",3, artista = "Feid & ATL Jacob", duracion = "3:45"))
@@ -61,3 +63,4 @@ private fun getCanciones(): MutableList<Cancion> {
     canciones.add(Cancion(titulo = "Amor de Vago",10, artista = "La T y La M, Malandro", duracion = "3:08'"))
     return canciones
 }
+

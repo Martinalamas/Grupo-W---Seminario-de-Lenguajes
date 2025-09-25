@@ -2,23 +2,54 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+
+     lateinit var BotonRegistrate: Button
+     lateinit var BotonInicioSesion: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent = Intent(this, TerminosYCondiciones::class.java)
-        startActivity(intent)
-        finish()
-        enableEdgeToEdge()
+
         setContentView(R.layout.activity_main)
+
+        enableEdgeToEdge()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        // Inicializa las variables de los botones
+        BotonRegistrate = findViewById(R.id.BotonRegistrate)
+        BotonInicioSesion = findViewById(R.id.BotonInicioSesion)
+
+
+        // Acción Boton Registrate
+        BotonRegistrate.setOnClickListener {
+            //Para "conectar" con la pantalla de terminos y condiciones.
+            val intent = Intent(this, TerminosYCondiciones::class.java)
+            startActivity(intent)
+        }
+
+
+        // Acción Boton Inicia Sesion
+        BotonInicioSesion.setOnClickListener {
+            // Crea el Intent para ir a InicioSesion_Activity
+            // 'this' se refiere al contexto de MainActivity
+            val intent = Intent(this, InicioSesion_Activity::class.java)
+
+            startActivity(intent)
+
+
+        }
+
     }
 }

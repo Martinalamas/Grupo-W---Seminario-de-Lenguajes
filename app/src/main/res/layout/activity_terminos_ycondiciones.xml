@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -56,6 +55,7 @@
                 android:text="@string/condiciones" />
 
             <CheckBox
+                android:id="@+id/idCheck"
                 android:textSize="20sp"
                 android:padding="12dp"
                 android:buttonTint="#1DB954"
@@ -72,6 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ACEPTO"
+        android:backgroundTint="@color/spotify_green"
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="16dp"/>
