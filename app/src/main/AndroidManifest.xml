@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".PlaylistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgregarCancion"
+            android:exported="false" />
+        <activity
             android:name=".BienvenidaActivity"
             android:exported="false" />
         <activity

@@ -42,7 +42,7 @@ class BienvenidaActivity : AppCompatActivity() {
         }
 
         botonAtras.setOnClickListener {
-           val intent = Intent(this, InicioSesion_Activity::class.java)
+           val intent = Intent(this, AgregarCancion::class.java)
             startActivity(intent)
             true
         }
