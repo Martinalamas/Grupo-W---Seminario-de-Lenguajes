@@ -2,6 +2,8 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -44,6 +46,25 @@ class Top10Activity : AppCompatActivity() {
 
         cancionesAdapter = CancionAdapter(getCanciones(), this)
         rvTop10Activity.adapter = cancionesAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId=R.id.item_top10){
+            val intent = intent(this,rvTop10Activity::class.java)
+            startActivity(intent)
+        }
+
+       // if (item.itemId=R.id.item_logout){
+        //    val intent = intent(this,::class.java)
+       //     startActivity(intent)
+       // }
+
+        return super.onOptionsItemSelected(item)
     }
 }
 
