@@ -59,10 +59,10 @@ class Top10Activity : AppCompatActivity() {
             startActivity(intent)
         }
 
-       // if (item.itemId=R.id.item_logout){
-        //    val intent = intent(this,::class.java)
-       //     startActivity(intent)
-       // }
+       if (item.itemId=R.id.item_logout){
+           val intent = intent(this,InicioSesion_Activity::class.java)
+           startActivity(intent)
+       }
 
         return super.onOptionsItemSelected(item)
     }
