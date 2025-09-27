@@ -13,13 +13,15 @@ import androidx.core.view.WindowInsetsCompat
 
 class InicioSesion_Activity : AppCompatActivity() {
 
+    // Declara las variables para las vistas
+    lateinit var nombreUsuarioEditText: EditText
+    lateinit var contrasenaEditText: EditText
+    lateinit var verificacionCheckBox: CheckBox
+    lateinit var botonInicioSesion: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Declara las variables para las vistas
-        lateinit var nombreUsuarioEditText: EditText
-        lateinit var contrasenaEditText: EditText
-        lateinit var verificacionCheckBox: CheckBox
-        lateinit var botonInicioSesion: Button
+
 
 
         super.onCreate(savedInstanceState)
@@ -35,6 +37,20 @@ class InicioSesion_Activity : AppCompatActivity() {
         nombreUsuarioEditText = findViewById(R.id.NombreUsuario)
         contrasenaEditText = findViewById(R.id.Contrasena)
         verificacionCheckBox = findViewById(R.id.Verificacion)
+
+        // Recuperar las preferencias de inicio de sesión
+        var preferencias = getSharedPreferences(resources.getString(R.string.sp_credenciales), MODE_PRIVATE)
+        var nombreGuardado = preferencias.getString(resources.getString(R.string.nombre), "")
+        var passwordGuardada = preferencias.getString(resources.getString(R.string.password), "")
+
+        // Mostrar las preferencias si existen -> quedan escritas
+        if (nombreGuardado!!.isNotEmpty() && passwordGuardada!!.isNotEmpty()) {
+           nombreUsuarioEditText.setText(nombreGuardado)
+            contrasenaEditText.setText(passwordGuardada)
+            verificacionCheckBox.isChecked = true
+        }
+
+
         botonInicioSesion = findViewById(R.id.BotonInicioSesion)
 
 
@@ -66,14 +82,16 @@ class InicioSesion_Activity : AppCompatActivity() {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
 
 
+                // Si recordar inicio esta check, se guardan las preferencias
                 if (recordarUsuario) {
+                    login(nombreUsuario, contrasena)
                     Toast.makeText(this, "Se recordará el usuario.", Toast.LENGTH_SHORT).show()
 
 
+
                 }
-                val intent = Intent(this, Top10Activity::class.java)
-                startActivity(intent)
-                finish()
+                iniciarBienvenida(nombreUsuario)
+
 
 
 
@@ -93,6 +111,29 @@ class InicioSesion_Activity : AppCompatActivity() {
             }
         }
     }
+
+    //Funcion para iniciar la actividad Bienvenida
+    private fun iniciarBienvenida (Usuario : String) {
+        val intent = Intent(this, BienvenidaActivity::class.java)
+        intent.putExtra(resources.getString(R.string.nombre), Usuario)
+        startActivity(intent)
+        finish()
+    }
+
+    //Funcion para guardar las preferencias de inicio de sesion
+    private fun login(Usuario : String, Password : String) {
+        var preferencias = getSharedPreferences(resources.getString(R.string.sp_credenciales), MODE_PRIVATE)
+
+        preferencias.edit().apply {
+            putString(resources.getString(R.string.nombre), Usuario)
+            putString(resources.getString(R.string.password), Password)
+            apply()
+        }
+
+
+    }
+
+
 
 
 

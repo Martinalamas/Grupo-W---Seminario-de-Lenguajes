@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".BienvenidaActivity"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/idImagen"
+        android:layout_width="469dp"
+        android:layout_height="245dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/logo2" />
+
+    <TextView
+        android:id="@+id/idTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp"
+        android:textColor="@color/spotify_green"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/idSub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="¿Qué quieres escuchar hoy?"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/spotify_green"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="50dp"
+        android:textSize="17dp"
+        android:text="TOP 10 ARGENTINA"
+        android:gravity="center"
+        android:backgroundTint="@color/spotify_green" />
+
+    <Button
+        android:id="@+id/btnAtras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="10dp"
+        android:textSize="17dp"
+        android:text="VOLVER ATRAS"
+        android:gravity="center"
+        android:backgroundTint="@color/spotify_green" />
+
+
+</LinearLayout>
