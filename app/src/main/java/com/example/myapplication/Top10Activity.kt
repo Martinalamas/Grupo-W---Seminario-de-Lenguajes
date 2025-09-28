@@ -18,6 +18,7 @@ class Top10Activity : AppCompatActivity() {
     lateinit var rvTop10Activity: RecyclerView
     lateinit var cancionesAdapter: CancionAdapter
     lateinit var botonContinuar : Button
+    lateinit var botonDescarga : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +31,14 @@ class Top10Activity : AppCompatActivity() {
         }
 
         botonContinuar = findViewById<AppCompatButton>(R.id.botonContinuar)
+        botonDescarga = findViewById<AppCompatButton>(R.id.botonDescarga)
         botonContinuar.setOnClickListener {
             val intent = Intent(this, GraciasActivity::class.java)
+            startActivity(intent)
+        }
+        //agregue este boton asi lo lleva a la parte de "descarga"
+        botonDescarga.setOnClickListener {
+            val intent = Intent(this, DescargaYEscuchaActivity::class.java)
             startActivity(intent)
         }
 
