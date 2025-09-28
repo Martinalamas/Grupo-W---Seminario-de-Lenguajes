@@ -1,9 +1,11 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -20,6 +22,15 @@ class Detalle_CancionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.DNombreCancion).text = titulo
         findViewById<TextView>(R.id.DArtista).text = artista
         findViewById<TextView>(R.id.dc_duracion).text = duracion
+        lateinit var botonVolver : AppCompatButton
+
+
+        botonVolver = findViewById<AppCompatButton>(R.id.botonVolver)
+
+        botonVolver.setOnClickListener {
+            val intent = Intent(this, Top10Activity::class.java)
+            startActivity(intent)
+        }
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
