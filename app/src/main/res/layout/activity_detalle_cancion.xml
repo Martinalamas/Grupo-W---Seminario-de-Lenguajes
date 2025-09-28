@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#1DB954"
     android:orientation="vertical"
-    tools:context=".Detalle_CancionActivity">
+    tools:context=".DetalleCancionActivity">
 
     <TextView
         android:id="@+id/DNombreCancion"
@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/DArtista"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Artista"
@@ -51,7 +51,7 @@
         android:id="@+id/botonVolver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#1DB954"
         android:drawableLeft="@drawable/linea_izquierda"
         android:gravity="center"
         android:text="Volver al Top 10"

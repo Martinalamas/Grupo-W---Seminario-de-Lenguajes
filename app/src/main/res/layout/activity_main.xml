@@ -5,15 +5,75 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity">
+
+
+    <!-- ImageView para el logo -->
+
+    <ImageView
+        android:id="@+id/logospotify"
+        android:layout_width="254dp"
+        android:layout_height="438dp"
+        android:src="@drawable/logo2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Millones de canciones. \nGratis en Spotify."
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <!--<color name= "spotify_verde"> #1DB954 </color> -->
+    <!-- Botón "Inicia Sesion" - Lo pongo primero en el XML para qe" se ancle a él por abajo -->
+    <Button
+        android:id="@+id/BotonInicioSesion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Inicia Sesion"
+        android:textColor="@color/white"
+        android:backgroundTint="#1DB954"
+        android:textStyle="bold"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+    <Button
+        android:id="@+id/BotonRegistrate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Regístrate Gratis"
+        android:textColor="@color/black"
+        android:backgroundTint="#1DB954"
+        android:textStyle="bold"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/BotonInicioSesion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,9 +56,9 @@ class Top10Activity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId==R.id.item_playlist){
-            val intent = Intent(this, AgregarCancionActivity::class.java)
+            val intent = Intent(this, AgregarCancion::class.java)
             startActivity(intent)
         }
 

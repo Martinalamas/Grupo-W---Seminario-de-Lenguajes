@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class Detalle_CancionActivity : AppCompatActivity() {
+class DetalleCancionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,6 +22,7 @@ class Detalle_CancionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.DNombreCancion).text = titulo
         findViewById<TextView>(R.id.DArtista).text = artista
         findViewById<TextView>(R.id.dc_duracion).text = duracion
+
         lateinit var botonVolver : AppCompatButton
 
 
