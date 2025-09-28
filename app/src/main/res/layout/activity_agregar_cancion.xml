@@ -9,6 +9,14 @@
     tools:context=".AgregarCancion"
     android:orientation="vertical">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarAtras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:title="Atras"
+        app:titleTextColor="@color/white" />
+
     <TextView
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
@@ -21,7 +29,7 @@
         android:textStyle="bold"
         android:layout_marginTop="32dp" />
 
-    <!-- TextView "Ingresar usuario" -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +40,6 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp" />
 
-    <!-- EditText NombreUsuario -->
     <EditText
         android:id="@+id/idCancion"
         android:layout_width="match_parent"
@@ -46,7 +53,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="8dp" />
 
-    <!-- TextView "Ingresar contraseña" -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

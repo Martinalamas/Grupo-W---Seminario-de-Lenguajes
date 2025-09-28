@@ -51,6 +51,34 @@
         android:gravity="center"
         android:backgroundTint="@color/spotify_green" />
 
+
+    <Button
+        android:id="@+id/btnPlaylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="10dp"
+        android:textSize="17dp"
+        android:text="IR A MI PLAYLIST"
+        android:gravity="center"
+        android:backgroundTint="@color/spotify_green" />
+
+
+
+    <Button
+        android:id="@+id/btnAgregar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="10dp"
+        android:textSize="17dp"
+        android:text="AGREGAR CANCION"
+        android:gravity="center"
+        android:backgroundTint="@color/spotify_green" />
+
+
     <Button
         android:id="@+id/btnAtras"
         android:layout_width="match_parent"
@@ -62,6 +90,9 @@
         android:text="VOLVER ATRAS"
         android:gravity="center"
         android:backgroundTint="@color/spotify_green" />
+
+
+
 
 
 </LinearLayout>

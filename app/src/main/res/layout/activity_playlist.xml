@@ -9,11 +9,33 @@
     tools:context=".PlaylistActivity"
     android:orientation="vertical">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:title="Mis canciones favoritas"
+        app:titleCentered="true"
+        app:titleTextColor="@color/black" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager = "androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_cancion"/>
+
+    <Button
+        android:id="@+id/btnDescargar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_gravity="center"
+        android:layout_width="284dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/spotify_green"
+        android:text="DESCARGAR PLAYLIST"
+        android:textSize="18dp"
+        android:textColor="@color/white" />
 
 </LinearLayout>
