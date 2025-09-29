@@ -11,42 +11,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-
+        <activity
+            android:name=".DescargaYEscucha"
+            android:exported="false" />
+        <activity
+            android:name=".PlaylistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgregarCancion"
+            android:exported="false" />
+        <activity
+            android:name=".BienvenidaActivity"
+            android:exported="false" />
         <activity
             android:name=".Top10Activity"
             android:exported="false" />
-
         <activity
             android:name=".Registro2"
             android:exported="false" />
-
         <activity
             android:name=".Registro"
             android:exported="false" />
-
         <activity
             android:name=".TerminosYCondiciones"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".GraciasActivity"
             android:exported="false" />
-
         <activity
             android:name=".Detalle_CancionActivity"
             android:exported="false" />
-
-        <activity android:name=".InicioSesion_Activity"
+        <activity
+            android:name=".InicioSesion_Activity"
             android:exported="true" />
-
     </application>
+
 </manifest>
