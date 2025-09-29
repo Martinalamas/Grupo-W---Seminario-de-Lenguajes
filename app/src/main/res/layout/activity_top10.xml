@@ -28,14 +28,31 @@
         tools:itemCount="10"
         tools:listitem="@layout/item_cancion" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/botonContinuar"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#1DB954"
-        android:text="Continuar"
-        android:textColor="@color/white" />
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/botonContinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#1DB954"
+            android:text="Continuar"
+            android:textColor="@color/white"
+            android:layout_marginEnd="10dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/botonDescarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#1DB954"
+            android:text="¡Descarga tu musica!"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp" />
+
+    </LinearLayout>
 
 </LinearLayout>
 
