@@ -58,7 +58,7 @@ class PlaylistActivity : AppCompatActivity() {
 
         //Al dar click en el boton de descargar, se muestra la actividad DescargaYEscucha
         descargar.setOnClickListener {
-            val intent = Intent(this, DescargaYEscucha::class.java)
+            val intent = Intent(this, DescargaYEscuchaActivity::class.java)
             startActivity(intent)
         }
 

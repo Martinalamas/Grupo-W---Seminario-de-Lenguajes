@@ -7,7 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DescargaYEscuchaActivity"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarAtras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:title="Atras"
+        app:titleTextColor="@color/white"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/logospotify"
@@ -71,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="5dp"
-        android:textSize="18sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         tools:text="Informacion descarga"
         app:layout_constraintEnd_toEndOf="parent"

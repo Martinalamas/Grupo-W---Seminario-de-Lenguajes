@@ -64,7 +64,7 @@ class Top10Activity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_playlist -> {
-                startActivity(Intent(this, AgregarCancion::class.java))
+                startActivity(Intent(this, PlaylistActivity::class.java))
             }
             R.id.item_logout -> {
                 startActivity(Intent(this, InicioSesion_Activity::class.java))
