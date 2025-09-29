@@ -32,6 +32,7 @@ class DescargaYEscuchaActivity : AppCompatActivity() {
             insets
         }
 
+
         musicaSonando = findViewById(R.id.musicaSonando)
         musicaDescarga = findViewById(R.id.musicaDescarga)
         botonSonar = findViewById(R.id.botonSonar)
