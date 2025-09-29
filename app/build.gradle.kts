@@ -60,6 +60,10 @@ dependencies {
     // SQLite JDBC para Windows + KAPT
     implementation("org.xerial:sqlite-jdbc:3.42.0.0")
 
+    // Corrutinas + Lifecycle
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -70,3 +74,5 @@ dependencies {
 kapt {
     correctErrorTypes = true
 }
+
+

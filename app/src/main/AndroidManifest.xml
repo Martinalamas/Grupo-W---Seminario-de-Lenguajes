@@ -24,6 +24,9 @@
             android:name=".BienvenidaActivity"
             android:exported="false" />
         <activity
+            android:name=".DescargaYEscuchaActivity"
+            android:exported="false" />
+        <activity
             android:name=".Top10Activity"
             android:exported="false" />
         <activity
