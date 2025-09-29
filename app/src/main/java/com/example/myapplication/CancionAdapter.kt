@@ -5,12 +5,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Cancion
-import com.example.myapplication.Detalle_CancionActivity
-import org.w3c.dom.Text
 
 class CancionAdapter(
     private val canciones: MutableList<Cancion>,
@@ -38,7 +34,7 @@ class CancionAdapter(
         holder.txtTop.text = item.top.toString()
 
         holder.itemView.setOnClickListener {
-            val i = Intent(holder.itemView.context, Detalle_CancionActivity::class.java)
+            val i = Intent(holder.itemView.context, DetalleCancionActivity::class.java)
             val ctx = holder.itemView.context
             i.putExtra("titulo",item.titulo)
             i.putExtra("artista",item.artista)

@@ -5,14 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="#1DB954"
     android:orientation="vertical"
-    tools:context=".Detalle_CancionActivity">
+    tools:context=".DetalleCancionActivity">
 
     <TextView
         android:id="@+id/DNombreCancion"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginTop="300dp"
         android:gravity="center"
         android:text="Nombre de la cancion"
         android:textColor="@color/white"
@@ -21,12 +22,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </TextView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/DArtista"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Artista"
@@ -34,8 +34,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@id/DNombreCancion"
         app:layout_constraintStart_toStartOf="@+id/DNombreCancion"
-        app:layout_constraintTop_toBottomOf="@+id/DNombreCancion">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@+id/DNombreCancion" />
 
     <TextView
         android:id="@+id/dc_duracion"
@@ -46,8 +45,21 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/DArtista"
         app:layout_constraintStart_toStartOf="@+id/DArtista"
-        app:layout_constraintTop_toBottomOf="@+id/DArtista">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@+id/DArtista" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/botonVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#1DB954"
+        android:drawableLeft="@drawable/linea_izquierda"
+        android:gravity="center"
+        android:text="Volver al Top 10"
+        android:textColor="@color/white"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dc_duracion" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
