@@ -123,12 +123,14 @@ class InicioSesion_Activity : AppCompatActivity() {
             if (isChecked) {
                 pedirPermisos()
                 crearCanalNotificaciones()
+                // Pido permisos
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     if (ActivityCompat.checkSelfPermission(
                             this,
                             Manifest.permission.POST_NOTIFICATIONS
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
+                        // Si tiene permiso, muestro notificacion
                         mostrarNotificacion(nombreUsuarioEditText.text.toString())
                     } else {
                         // Pedimos permiso
@@ -139,7 +141,7 @@ class InicioSesion_Activity : AppCompatActivity() {
                         )
                     }
                 } else {
-                    // Android < 13, no se necesita permiso
+                    // Si el android es menor a 33, no necesito permisos
                     mostrarNotificacion(nombreUsuarioEditText.text.toString())
                 }
                 Toast.makeText(this, "Se recordará el usuario", Toast.LENGTH_SHORT).show()
@@ -170,6 +172,7 @@ class InicioSesion_Activity : AppCompatActivity() {
 
     }
 
+    //Funcion para pedir permiso
     private fun pedirPermisos() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(
@@ -187,6 +190,7 @@ class InicioSesion_Activity : AppCompatActivity() {
         }
     }
 
+    //Funcion para crear el canal de notificaciones
     private fun crearCanalNotificaciones(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -201,28 +205,35 @@ class InicioSesion_Activity : AppCompatActivity() {
         }
     }
 
+    //Funcion para mostrar la notificacion
     @RequiresPermission(value = "android.permission.POST_NOTIFICATIONS")
     private fun mostrarNotificacion(Usuario : String) {
 
-
+        // Crear el intent para abrir la actividad
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Crear el intent para cerrar la actividad
         val ignorePendingIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, BienvenidaActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra(resources.getString(R.string.nombre), Usuario) // 👈 agregar esto
+                putExtra(resources.getString(R.string.nombre), Usuario)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Crear la notificacion y configuro estilo y textos
         val builder = NotificationCompat.Builder(this, "1")
+
             .setSmallIcon(R.drawable.ic_notificacion)
+
+        //Creo icono grande
         val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
         builder.setLargeIcon(largeIcon)
+
             .setContentTitle("Sesión recordada")
             .setContentText("Tu usuario ha sido recordado exitosamente.")
             .setStyle(
@@ -235,7 +246,7 @@ class InicioSesion_Activity : AppCompatActivity() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .addAction(
-                R.drawable.img_2,
+                R.drawable.ic_notificacion,
                 "Ir a la app",
                 ignorePendingIntent
             )

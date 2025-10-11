@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
@@ -104,18 +105,21 @@ class Registro2 : AppCompatActivity() {
         }
     }
 
-    //  Funcion para manejar la logica de SharedPreferences yrecibe el nombre de usuario y la contraseña
+    //  Funcion para manejar la logica de SharedPreferences y recibe el nombre de usuario y la contraseña
     private fun guardarDatosUsuario(nombreUsuario: String?, contra: String?) {
         val editor = sharedPreferences.edit()
         editor.putBoolean("recordar_sesion", switchRecordarSesion.isChecked)
 
         if(switchRecordarSesion.isChecked) {
-            // CAMBIO: Guardamos el nombre de usuario que se ingresó en el EditText
+
 
             editor.putString(getString(R.string.nombre), nombreUsuario)
-            editor.putString(getString(R.string.password), contra) // ADVERTENCIA DE SEGURIDAD
+            editor.putString(getString(R.string.password), contra)
 
+            //Creamos canal de notificaciones
             crearCanalNotificaciones()
+
+            // Pido permisos
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ActivityCompat.checkSelfPermission(
                         this,
@@ -132,7 +136,7 @@ class Registro2 : AppCompatActivity() {
                     )
                 }
             } else {
-                // Android < 13, no se necesita permiso
+                // Si el android es menor a 33, no necesito permisos
                 mostrarNotificacion(nombreUsuarioEditText.text.toString())
             }
         } else {
@@ -152,6 +156,7 @@ class Registro2 : AppCompatActivity() {
         }
     }
 
+    // Funcion para crear el canal de notificaciones
     private fun crearCanalNotificaciones(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -166,15 +171,17 @@ class Registro2 : AppCompatActivity() {
         }
     }
 
+    //Funcion para mostrar notificacion
     @RequiresPermission(value = "android.permission.POST_NOTIFICATIONS")
     private fun mostrarNotificacion(Usuario : String) {
 
-
+        // Crear el intent para abrir la actividad
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Crear el intent para cerrar la actividad
         val ignorePendingIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, BienvenidaActivity::class.java).apply {
@@ -184,8 +191,14 @@ class Registro2 : AppCompatActivity() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        //Creo la notificacion y configuro estilo y textos
         val builder = NotificationCompat.Builder(this, "1")
-            .setSmallIcon(R.drawable.img_2)
+            .setSmallIcon(R.drawable.ic_notificacion)
+
+            //Creo icono grande
+        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
+        builder.setLargeIcon(largeIcon)
+
             .setContentTitle("Sesión recordada")
             .setContentText("Tu usuario ha sido recordado exitosamente.")
             .setStyle(
@@ -194,11 +207,11 @@ class Registro2 : AppCompatActivity() {
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setColor(ContextCompat.getColor(this, R.color.black))
+            .setColor(ContextCompat.getColor(this, R.color.spotify_green))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .addAction(
-                R.drawable.logo2,
+                R.drawable.ic_notificacion,
                 "Ir a la app",
                 ignorePendingIntent
             )
