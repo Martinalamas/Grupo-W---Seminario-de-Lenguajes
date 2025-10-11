@@ -9,6 +9,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -219,7 +220,9 @@ class InicioSesion_Activity : AppCompatActivity() {
         )
 
         val builder = NotificationCompat.Builder(this, "1")
-            .setSmallIcon(R.drawable.logo2)
+            .setSmallIcon(R.drawable.ic_notificacion)
+        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
+        builder.setLargeIcon(largeIcon)
             .setContentTitle("Sesión recordada")
             .setContentText("Tu usuario ha sido recordado exitosamente.")
             .setStyle(
@@ -228,11 +231,11 @@ class InicioSesion_Activity : AppCompatActivity() {
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setColor(ContextCompat.getColor(this, R.color.black))
+            .setColor(ContextCompat.getColor(this, R.color.spotify_green))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .addAction(
-                R.drawable.logo2,
+                R.drawable.img_2,
                 "Ir a la app",
                 ignorePendingIntent
             )

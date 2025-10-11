@@ -185,7 +185,7 @@ class Registro2 : AppCompatActivity() {
         )
 
         val builder = NotificationCompat.Builder(this, "1")
-            .setSmallIcon(R.drawable.logo2)
+            .setSmallIcon(R.drawable.img_2)
             .setContentTitle("Sesión recordada")
             .setContentText("Tu usuario ha sido recordado exitosamente.")
             .setStyle(
