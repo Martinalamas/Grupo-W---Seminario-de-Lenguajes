@@ -1,16 +1,26 @@
 package com.example.myapplication
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 
 class Registro2 : AppCompatActivity() {
@@ -101,8 +111,30 @@ class Registro2 : AppCompatActivity() {
 
         if(switchRecordarSesion.isChecked) {
             // CAMBIO: Guardamos el nombre de usuario que se ingresó en el EditText
+
             editor.putString(getString(R.string.nombre), nombreUsuario)
             editor.putString(getString(R.string.password), contra) // ADVERTENCIA DE SEGURIDAD
+
+            crearCanalNotificaciones()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    mostrarNotificacion(nombreUsuarioEditText.text.toString())
+                } else {
+                    // Pedimos permiso
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        101
+                    )
+                }
+            } else {
+                // Android < 13, no se necesita permiso
+                mostrarNotificacion(nombreUsuarioEditText.text.toString())
+            }
         } else {
             editor.clear()
         }
@@ -118,5 +150,59 @@ class Registro2 : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun crearCanalNotificaciones(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "1",
+                "Canal Recordatorio",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.description = "Canal para notificar recordatorios"
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    @RequiresPermission(value = "android.permission.POST_NOTIFICATIONS")
+    private fun mostrarNotificacion(Usuario : String) {
+
+
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val ignorePendingIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, BienvenidaActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra(resources.getString(R.string.nombre), Usuario) // 👈 agregar esto
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val builder = NotificationCompat.Builder(this, "1")
+            .setSmallIcon(R.drawable.logo2)
+            .setContentTitle("Sesión recordada")
+            .setContentText("Tu usuario ha sido recordado exitosamente.")
+            .setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                    "Tu usuario ha sido recordado exitosamente. Si quieres desactivar esta opción, vuelve a iniciar sesión."
+                )
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setColor(ContextCompat.getColor(this, R.color.black))
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .addAction(
+                R.drawable.logo2,
+                "Ir a la app",
+                ignorePendingIntent
+            )
+
+        NotificationManagerCompat.from(this).notify(0, builder.build())
     }
 }
