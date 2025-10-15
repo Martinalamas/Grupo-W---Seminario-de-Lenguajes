@@ -69,6 +69,8 @@ class InicioSesion_Activity : AppCompatActivity() {
 
         botonInicioSesion = findViewById(R.id.BotonInicioSesion)
 
+        val bd = AppDataBase.getDatabase(this)
+        val usuarioDao = bd.usuarioDao()
 
         // Configurar el listener para el botón de Iniciar Sesión
         botonInicioSesion.setOnClickListener {
@@ -76,6 +78,7 @@ class InicioSesion_Activity : AppCompatActivity() {
             val nombreUsuario = nombreUsuarioEditText.text.toString()
             val contrasena = contrasenaEditText.text.toString()
             val recordarUsuario = verificacionCheckBox.isChecked
+            val usuarioRegistrado = usuarioDao.getUsuario(nombreUsuario, contrasena)
 
 
             //  Lógica de Validación (Ejemplo Básico)
@@ -94,7 +97,7 @@ class InicioSesion_Activity : AppCompatActivity() {
             //Inicio de sesion.
 
 
-            if (!nombreUsuario.isEmpty() && !contrasena.isEmpty()) {
+            if (usuarioRegistrado != null) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
 
 
@@ -107,6 +110,9 @@ class InicioSesion_Activity : AppCompatActivity() {
 
                 }
                 iniciarBienvenida(nombreUsuario)
+                } else {
+                Toast.makeText(this, "El usuario no existe", Toast.LENGTH_LONG).show()
+
 
 
 
