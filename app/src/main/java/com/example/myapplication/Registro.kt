@@ -84,6 +84,8 @@ class Registro : AppCompatActivity() {
             val intent = Intent(this, Registro2::class.java)
             intent.putExtra("nombre", nombreString)
             intent.putExtra("apellido", apellidoString)
+            intent.putExtra("email", correoString)
+            intent.putExtra("fecha", fechaString)
             startActivity(intent)
             finish()
         }

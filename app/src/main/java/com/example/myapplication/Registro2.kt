@@ -78,13 +78,22 @@ class Registro2 : AppCompatActivity() {
         val nombre = intent.getStringExtra("nombre")
         val apellido = intent.getStringExtra("apellido")
 
+
         //Muestro mensaje personalizado
         titulo.text = "¡Bienvenido $nombre $apellido!"
 
         //Al dar click, se validan los campos y si son validos, se muestra un mensaje de confirmacion
-        btnRegistrar.setOnClickListener{
+        btnRegistrar.setOnClickListener {
+            val nombreAnt = intent.getStringExtra("nombre")
+            val correo = intent.getStringExtra("email")
+            val fecha = intent.getStringExtra("fecha")
+            val apellidoAnt = intent.getStringExtra("apellido")
             val contraString = contra.text.toString()
             val contra2String = contra2.text.toString()
+            val nombreUsuario = nombreUsuarioEditText.text.toString()
+
+
+
 
             if (contraString.isEmpty() || contra2String.isEmpty()) {
                 contra.error = "Por favor, ingrese una contraseña"
@@ -93,17 +102,50 @@ class Registro2 : AppCompatActivity() {
                 contra.error = "Las contraseñas no coinciden"
                 contra2.error = "Las contraseñas no coinciden"
             } else {
+                val db = AppDataBase.getDatabase (this)
+                val usuarioDao = db.usuarioDao()
 
-                val nombreUsuario = nombreUsuarioEditText.text.toString()
-                guardarDatosUsuario(nombreUsuario, contraString)
 
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, Top10Activity::class.java)
-                startActivity(intent)
-                finish()
-            }
+                Thread {
+
+                  try {
+                    val existente = usuarioDao.getUsuarioPorNombre(nombreUsuario)
+                    runOnUiThread {
+                        if (existente != null) {
+                            Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
+                        } else {
+                            val nuevoUsuario = Usuario(
+                                usuario = nombreUsuario,
+                                contraseña = contraString,
+                                nombre = nombreAnt.toString(),
+                                apellido = apellidoAnt.toString(),
+                                email = correo.toString(),
+                                fechaNacimiento = fecha.toString()
+
+                            )
+                            usuarioDao.insertUsuario(nuevoUsuario)
+
+                            // Guardar SharedPreferences y notificación
+                            guardarDatosUsuario(nombreUsuario, contraString)
+
+                            runOnUiThread {
+                                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, Top10Activity::class.java))
+                                finish()
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }.start()
+
+
         }
     }
+
+    }
+
 
     //  Funcion para manejar la logica de SharedPreferences y recibe el nombre de usuario y la contraseña
     private fun guardarDatosUsuario(nombreUsuario: String?, contra: String?) {
@@ -219,3 +261,4 @@ class Registro2 : AppCompatActivity() {
         NotificationManagerCompat.from(this).notify(0, builder.build())
     }
 }
+
