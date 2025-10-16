@@ -40,6 +40,10 @@ class Registro : AppCompatActivity() {
         fecha = findViewById(R.id.idFecha)
         continuar = findViewById(R.id.btnContinuar)
 
+        //Vinculación base de datos
+        val bd = AppDataBase.getDatabase(this)
+        val usuarioDao = bd.usuarioDao()
+
         //Al dar click, aparece el calendario para seleccionar la fecha de nacimiento
         fecha.setOnClickListener{
             mostrarFecha()
@@ -69,6 +73,13 @@ class Registro : AppCompatActivity() {
                 return@setOnClickListener
             } else {
                 correo.error = null
+            }
+
+            //Validacion correo registrado
+            val usuarioRegistrado = usuarioDao.getUsuarioPorCorreo(correoString)
+            if (usuarioRegistrado != null) {
+                correo.error = "El correo ya está registrado"
+                return@setOnClickListener
             }
 
             //Validación de edad

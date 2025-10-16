@@ -15,6 +15,10 @@ interface UsuarioDao {
     @Query("SELECT contraseña FROM usuarios WHERE usuario = :usuario")
     fun getContraseña(usuario: String): String?
 
+    @Query("SELECT * FROM usuarios WHERE email = :correo")
+    fun getUsuarioPorCorreo(correo: String): Usuario?
+
+
     @Insert
     fun insertUsuario(usuario: Usuario)
 
