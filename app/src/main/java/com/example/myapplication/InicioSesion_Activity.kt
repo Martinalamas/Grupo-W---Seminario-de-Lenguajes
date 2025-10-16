@@ -78,7 +78,8 @@ class InicioSesion_Activity : AppCompatActivity() {
             val nombreUsuario = nombreUsuarioEditText.text.toString()
             val contrasena = contrasenaEditText.text.toString()
             val recordarUsuario = verificacionCheckBox.isChecked
-            val usuarioRegistrado = usuarioDao.getUsuario(nombreUsuario, contrasena)
+            val contrasenaRegistrada = usuarioDao.getContraseña(nombreUsuario)
+            val usuarioRegistrado = usuarioDao.getUsuarioPorNombre(nombreUsuario)
 
 
             //  Lógica de Validación (Ejemplo Básico)
@@ -98,8 +99,13 @@ class InicioSesion_Activity : AppCompatActivity() {
 
 
             if (usuarioRegistrado != null) {
-                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
 
+
+                if (contrasenaRegistrada != contrasena) {
+                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener // Sale del listener si hay error
+
+                }
 
                 // Si recordar inicio esta check, se guardan las preferencias
                 if (recordarUsuario) {
@@ -109,6 +115,7 @@ class InicioSesion_Activity : AppCompatActivity() {
 
 
                 }
+                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
                 iniciarBienvenida(nombreUsuario)
                 } else {
                 Toast.makeText(this, "El usuario no existe", Toast.LENGTH_LONG).show()
