@@ -102,18 +102,23 @@ class Registro2 : AppCompatActivity() {
                 contra.error = "Las contraseñas no coinciden"
                 contra2.error = "Las contraseñas no coinciden"
             } else {
+
+                //Conexion base de datos
                 val db = AppDataBase.getDatabase (this)
                 val usuarioDao = db.usuarioDao()
 
 
+                //Hilo para validar si el usuario ya existe
                 Thread {
 
                   try {
                     val existente = usuarioDao.getUsuarioPorNombre(nombreUsuario)
                     runOnUiThread {
+                        //Si el usuario ya existe, se muestra un error
                         if (existente != null) {
-                            Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
+                            nombreUsuarioEditText.error = "El usuario ya existe"
                         } else {
+                            //Si no el usuario no existe, se guardan sus datos
                             val nuevoUsuario = Usuario(
                                 usuario = nombreUsuario,
                                 contraseña = contraString,
@@ -128,6 +133,7 @@ class Registro2 : AppCompatActivity() {
                             // Guardar SharedPreferences y notificación
                             guardarDatosUsuario(nombreUsuario, contraString)
 
+                            // Muestro mensaje de registro exitoso
                             runOnUiThread {
                                 Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
                                 startActivity(Intent(this, Top10Activity::class.java))

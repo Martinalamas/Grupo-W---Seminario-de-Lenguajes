@@ -69,6 +69,7 @@ class InicioSesion_Activity : AppCompatActivity() {
 
         botonInicioSesion = findViewById(R.id.BotonInicioSesion)
 
+        // Obtener la instancia de la base de datos
         val bd = AppDataBase.getDatabase(this)
         val usuarioDao = bd.usuarioDao()
 
@@ -98,11 +99,12 @@ class InicioSesion_Activity : AppCompatActivity() {
             //Inicio de sesion.
 
 
+            //Se valida que el usuario aparece en la base de datos
             if (usuarioRegistrado != null) {
 
-
+                //Se valida que la contraseña sea la correcta
                 if (contrasenaRegistrada != contrasena) {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_LONG).show()
+                    contrasenaEditText.error = "La contraseña es incorrecta"
                     return@setOnClickListener // Sale del listener si hay error
 
                 }
@@ -115,10 +117,13 @@ class InicioSesion_Activity : AppCompatActivity() {
 
 
                 }
+
+                // Si no, se borran las preferencias
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
                 iniciarBienvenida(nombreUsuario)
                 } else {
-                Toast.makeText(this, "El usuario no existe", Toast.LENGTH_LONG).show()
+                    // Si el usuario no existe, se muestra un mensaje
+                nombreUsuarioEditText.error = "El nombre de usuario no existe"
 
 
 
