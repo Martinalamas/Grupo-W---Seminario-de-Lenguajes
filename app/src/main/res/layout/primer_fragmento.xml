@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/black">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¿Como fue tu experiencia con el Grupo W?"
+        android:textColor="@color/spotify_green"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Calificanos!"
+        android:backgroundTint="@color/spotify_green"
+        />
+
+
+</LinearLayout>
