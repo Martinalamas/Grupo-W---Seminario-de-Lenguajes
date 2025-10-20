@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myapplication" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label= "Spotify"
+        android:label="Spotify"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication" >
-
-        <!-- Activity principal (lanza la app) -->
+        android:theme="@style/Theme.MyApplication">
+        <activity
+            android:name=".Fragmento"
+            android:exported="false" />
+        <activity
+            android:name=".SegundoFragmento"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".PrimerFragmento"
+            android:exported="false"
+            tools:ignore="Instantiatable" /> <!-- Activity principal (lanza la app) -->
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

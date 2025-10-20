@@ -30,7 +30,7 @@ class GraciasActivity : AppCompatActivity() {
 
         botonVolverTop10 = findViewById(R.id.botonVolverTop10)
         botonVolverTop10.setOnClickListener {
-            val intent = Intent(this, Top10Activity::class.java)
+            val intent = Intent(this, Fragmento::class.java)
             startActivity(intent)
         }
     }
