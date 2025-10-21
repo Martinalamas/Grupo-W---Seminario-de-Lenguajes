@@ -9,6 +9,17 @@
     android:orientation="vertical"
     tools:context=".DetalleCancionActivity">
 
+    <ImageView
+        android:id="@+id/iv_portada"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="28dp"
+        android:foregroundGravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/DNombreCancion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/DNombreCancion"
         android:layout_width="wrap_content"
@@ -51,12 +62,12 @@
         android:id="@+id/botonVolver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:backgroundTint="#1DB954"
         android:drawableLeft="@drawable/linea_izquierda"
         android:gravity="center"
         android:text="Volver al Top 10"
         android:textColor="@color/white"
-        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dc_duracion" />

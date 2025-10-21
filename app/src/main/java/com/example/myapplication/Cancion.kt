@@ -10,5 +10,6 @@ data class Cancion(
     @PrimaryKey(autoGenerate = true)
     var top: Int = 0,
     @ColumnInfo(name = "artista") var artista: String,
-    @ColumnInfo(name = "duracion") var duracion: String
+    @ColumnInfo(name = "duracion") var duracion: String,
+    @ColumnInfo(name = "imagen") var imagen: String? = null
 )

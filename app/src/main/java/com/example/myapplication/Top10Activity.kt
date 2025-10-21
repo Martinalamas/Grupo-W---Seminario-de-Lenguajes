@@ -52,7 +52,7 @@ class Top10Activity : AppCompatActivity() {
         rvTop10Activity = findViewById(R.id.rvTop10)
         rvTop10Activity.layoutManager = LinearLayoutManager(this)
 
-        cancionesAdapter = CancionAdapter(getCanciones(), this)
+        cancionesAdapter = CancionAdapter(mutableListOf(), this)
         rvTop10Activity.adapter = cancionesAdapter
     }
 
@@ -71,20 +71,5 @@ class Top10Activity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun getCanciones(): MutableList<Cancion> {
-        return mutableListOf(
-            Cancion(titulo = "HOLA PERDIDA", top = 1, artista = "Luck Ra & Khea", duracion = "3:12"),
-            Cancion(titulo = "Piel", top = 2, artista = "Tiago PZK & Ke Personaje", duracion = "2:58"),
-            Cancion(titulo = "LUNA", top = 3, artista = "Feid & ATL Jacob", duracion = "3:45"),
-            Cancion(titulo = "Que me falte todo", top = 4, artista = "Luck Ra & Abel Pintos", duracion = "3:20"),
-            Cancion(titulo = "Tu Misterioso Alguien", top = 5, artista = "Miranda!", duracion = "4:04"),
-            Cancion(titulo = "7 VIDAS", top = 6, artista = "Maria Becerra", duracion = "2:24"),
-            Cancion(titulo = "La_Original.mp3", top = 7, artista = "Emilia & TINI", duracion = "2:20"),
-            Cancion(titulo = "Como Eran Las Cosas", top = 8, artista = "Babasonicos", duracion = "4:00"),
-            Cancion(titulo = "Baile Inolvidable", top = 9, artista = "Bad Bunny", duracion = "6:07"),
-            Cancion(titulo = "Amor de Vago", top = 10, artista = "La T y La M, Malandro", duracion = "3:08")
-        )
     }
 }
