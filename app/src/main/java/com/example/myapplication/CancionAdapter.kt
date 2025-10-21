@@ -7,7 +7,6 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -78,8 +77,6 @@ class CancionAdapter(
         ): Call<AlbumResponse>
     }
 
-    // --------------------------------------------------------------------------------------------
-
     init {
         Thread {
             try {
@@ -137,8 +134,6 @@ class CancionAdapter(
         }.start()
     }
 
-    // --------------------------------------------------------------------------------------------
-
     override fun getItemCount(): Int = canciones.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CancionViewHolder {
@@ -170,3 +165,4 @@ class CancionAdapter(
         val txtTop: TextView = view.findViewById(R.id.tv_top)
     }
 }
+
