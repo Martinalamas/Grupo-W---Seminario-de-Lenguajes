@@ -13,7 +13,7 @@
         android:label="Spotify"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication">
+        android:theme="@style/Theme.MyApplication" >
 
         <activity android:name=".ElegirAlbumActivity" android:exported="false" />
         <activity android:name=".Fragmento" android:exported="false" />
@@ -45,3 +45,4 @@
     </application>
 
 </manifest>
+
