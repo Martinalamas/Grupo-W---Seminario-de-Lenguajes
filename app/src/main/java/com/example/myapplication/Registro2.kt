@@ -26,47 +26,43 @@ import androidx.core.content.ContextCompat
 
 class Registro2 : AppCompatActivity() {
 
-    //Declaración de variables
-    lateinit var contra : EditText
+    // Declaración de variables
+    lateinit var contra: EditText
     lateinit var contra2: EditText
-    lateinit var btnRegistrar : Button
+    lateinit var btnRegistrar: Button
     lateinit var toolbar: Toolbar
-    lateinit var titulo : TextView
+    lateinit var titulo: TextView
     lateinit var switchRecordarSesion: SwitchCompat
-    // NUEVA VARIABLE PARA EL NOMBRE DE USUARIO
     lateinit var nombreUsuarioEditText: EditText
 
-    // Hice la variable de SharedPreferences una propiedad de la clase
+    // SharedPreferences
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro2)
 
-        //Vinculacion de las varibles con su ID
+        // Vinculación de variables
         contra = findViewById(R.id.idContra)
         contra2 = findViewById(R.id.idContra2)
         btnRegistrar = findViewById(R.id.btnRegistrar)
         titulo = findViewById(R.id.idTitulo)
         toolbar = findViewById(R.id.toolbar)
         switchRecordarSesion = findViewById(R.id.idSwitch)
-        // VINCULAMOS LA NUEVA VARIABLE
         nombreUsuarioEditText = findViewById(R.id.idNombreUsuario)
 
-        //  Inicializo SharedPreferences
         sharedPreferences = getSharedPreferences(getString(R.string.sp_credenciales), MODE_PRIVATE)
 
-        // Logica para cargar el estado guardado del usuario
+        // Estado guardado
         val estadoGuardado = sharedPreferences.getBoolean("recordar_sesion", false)
         switchRecordarSesion.isChecked = estadoGuardado
 
-        //Establecimiento de la toolbar
+        // Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Registro"
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.spotify_green))
 
-        //Al dar click, vuelve a Registro
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, Registro::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -74,17 +70,21 @@ class Registro2 : AppCompatActivity() {
             finish()
         }
 
-        //Recibe los datos del registro anterior
+        // Recibir datos del registro anterior
         val nombre = intent.getStringExtra("nombre")
         val apellido = intent.getStringExtra("apellido")
 
-        //Muestro mensaje personalizado
         titulo.text = "¡Bienvenido $nombre $apellido!"
 
-        //Al dar click, se validan los campos y si son validos, se muestra un mensaje de confirmacion
-        btnRegistrar.setOnClickListener{
+        // Validación y registro
+        btnRegistrar.setOnClickListener {
+            val nombreAnt = intent.getStringExtra("nombre")
+            val correo = intent.getStringExtra("email")
+            val fecha = intent.getStringExtra("fecha")
+            val apellidoAnt = intent.getStringExtra("apellido")
             val contraString = contra.text.toString()
             val contra2String = contra2.text.toString()
+            val nombreUsuario = nombreUsuarioEditText.text.toString()
 
             if (contraString.isEmpty() || contra2String.isEmpty()) {
                 contra.error = "Por favor, ingrese una contraseña"
@@ -93,33 +93,50 @@ class Registro2 : AppCompatActivity() {
                 contra.error = "Las contraseñas no coinciden"
                 contra2.error = "Las contraseñas no coinciden"
             } else {
+                val db = AppDataBase.getDatabase(this)
+                val usuarioDao = db.usuarioDao()
 
-                val nombreUsuario = nombreUsuarioEditText.text.toString()
-                guardarDatosUsuario(nombreUsuario, contraString)
-
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, Top10Activity::class.java)
-                startActivity(intent)
-                finish()
+                Thread {
+                    try {
+                        val existente = usuarioDao.getUsuarioPorNombre(nombreUsuario)
+                        runOnUiThread {
+                            if (existente != null) {
+                                nombreUsuarioEditText.error = "El usuario ya existe"
+                            } else {
+                                val nuevoUsuario = Usuario(
+                                    usuario = nombreUsuario,
+                                    contraseña = contraString,
+                                    nombre = nombreAnt.toString(),
+                                    apellido = apellidoAnt.toString(),
+                                    email = correo.toString(),
+                                    fechaNacimiento = fecha.toString()
+                                )
+                                usuarioDao.insertUsuario(nuevoUsuario)
+                                guardarDatosUsuario(nombreUsuario, contraString)
+                                runOnUiThread {
+                                    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                    startActivity(Intent(this, Top10Activity::class.java))
+                                    finish()
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }.start()
             }
         }
     }
 
-    //  Funcion para manejar la logica de SharedPreferences y recibe el nombre de usuario y la contraseña
     private fun guardarDatosUsuario(nombreUsuario: String?, contra: String?) {
         val editor = sharedPreferences.edit()
         editor.putBoolean("recordar_sesion", switchRecordarSesion.isChecked)
 
-        if(switchRecordarSesion.isChecked) {
-
-
+        if (switchRecordarSesion.isChecked) {
             editor.putString(getString(R.string.nombre), nombreUsuario)
             editor.putString(getString(R.string.password), contra)
-
-            //Creamos canal de notificaciones
             crearCanalNotificaciones()
 
-            // Pido permisos
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ActivityCompat.checkSelfPermission(
                         this,
@@ -128,7 +145,6 @@ class Registro2 : AppCompatActivity() {
                 ) {
                     mostrarNotificacion(nombreUsuarioEditText.text.toString())
                 } else {
-                    // Pedimos permiso
                     ActivityCompat.requestPermissions(
                         this,
                         arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -136,7 +152,6 @@ class Registro2 : AppCompatActivity() {
                     )
                 }
             } else {
-                // Si el android es menor a 33, no necesito permisos
                 mostrarNotificacion(nombreUsuarioEditText.text.toString())
             }
         } else {
@@ -145,7 +160,6 @@ class Registro2 : AppCompatActivity() {
         editor.apply()
     }
 
-    //Función para volver a Registro al presionar el botón de retroceso
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -156,8 +170,7 @@ class Registro2 : AppCompatActivity() {
         }
     }
 
-    // Funcion para crear el canal de notificaciones
-    private fun crearCanalNotificaciones(){
+    private fun crearCanalNotificaciones() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "1",
@@ -165,40 +178,32 @@ class Registro2 : AppCompatActivity() {
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             channel.description = "Canal para notificar recordatorios"
-
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    //Funcion para mostrar notificacion
     @RequiresPermission(value = "android.permission.POST_NOTIFICATIONS")
-    private fun mostrarNotificacion(Usuario : String) {
-
-        // Crear el intent para abrir la actividad
+    private fun mostrarNotificacion(Usuario: String) {
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // Crear el intent para cerrar la actividad
         val ignorePendingIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, BienvenidaActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra(resources.getString(R.string.nombre), Usuario) // 👈 agregar esto
+                putExtra(resources.getString(R.string.nombre), Usuario)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        //Creo la notificacion y configuro estilo y textos
+        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
+
         val builder = NotificationCompat.Builder(this, "1")
             .setSmallIcon(R.drawable.ic_notificacion)
-
-            //Creo icono grande
-        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
-        builder.setLargeIcon(largeIcon)
-
+            .setLargeIcon(largeIcon)
             .setContentTitle("Sesión recordada")
             .setContentText("Tu usuario ha sido recordado exitosamente.")
             .setStyle(
@@ -219,3 +224,4 @@ class Registro2 : AppCompatActivity() {
         NotificationManagerCompat.from(this).notify(0, builder.build())
     }
 }
+
