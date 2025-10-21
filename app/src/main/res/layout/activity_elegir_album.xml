@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".BienvenidaActivity"
+    tools:context=".ElegirAlbumActivity"
     android:orientation="vertical">
 
     <ImageView
@@ -21,69 +21,83 @@
         android:id="@+id/idTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:textStyle="bold"
-        android:layout_marginTop="70dp"
         android:textColor="@color/spotify_green"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/idSub"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="31dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="¿Qué quieres escuchar hoy?"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
         android:textColor="@color/spotify_green"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnElegir"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="50dp"
-        android:textSize="17dp"
-        android:text="ELEGIR ALBUM"
-        android:gravity="center"
-        android:backgroundTint="@color/spotify_green" />
-
-    <Button
-        android:id="@+id/btnPlaylist"
+        android:id="@+id/albumMiranda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
         android:textSize="17dp"
-        android:text="IR A MI PLAYLIST"
+        android:text="HOTEL MIRANDA"
         android:gravity="center"
         android:backgroundTint="@color/spotify_green" />
 
     <Button
-        android:id="@+id/btnAgregar"
+        android:id="@+id/albumLali"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
         android:textSize="17dp"
-        android:text="AGREGAR CANCION"
+        android:text="NO VAYAS A ATENDER CUANDO EL DEMONIO LLAMA"
         android:gravity="center"
         android:backgroundTint="@color/spotify_green" />
 
     <Button
-        android:id="@+id/btnAtras"
+        android:id="@+id/albumRedondos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
         android:textSize="17dp"
-        android:text="VOLVER ATRAS"
+        android:text="OKTUBRE"
         android:gravity="center"
         android:backgroundTint="@color/spotify_green" />
+
+    <Button
+        android:id="@+id/albumSoda"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="60dp"
+        android:backgroundTint="@color/spotify_green"
+        android:gravity="center"
+        android:text="SODA STEREO"
+        android:textSize="17dp" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="60dp"
+        android:backgroundTint="@color/spotify_green"
+        android:gravity="center"
+        android:text="VOLVER"
+        android:textSize="17dp"
+
+        app:icon="@drawable/linea_izquierda" />
 
 </LinearLayout>

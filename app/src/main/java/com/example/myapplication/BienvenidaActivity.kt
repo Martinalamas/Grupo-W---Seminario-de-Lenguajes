@@ -13,7 +13,7 @@ class BienvenidaActivity : AppCompatActivity() {
 
     // Declaración de variables
     lateinit var titulo: TextView
-    lateinit var boton: Button
+    lateinit var botonElegir: Button
     lateinit var subtitulo: TextView
     lateinit var botonAtras: Button
     lateinit var botonPlaylist: Button
@@ -32,7 +32,7 @@ class BienvenidaActivity : AppCompatActivity() {
 
         // Vinculación de las variables con su ID
         titulo = findViewById(R.id.idTitulo)
-        boton = findViewById(R.id.btnTop)
+        botonElegir = findViewById(R.id.btnElegir)
         subtitulo = findViewById(R.id.idSub)
         botonAtras = findViewById(R.id.btnAtras)
         botonPlaylist = findViewById(R.id.btnPlaylist)
@@ -45,8 +45,8 @@ class BienvenidaActivity : AppCompatActivity() {
         titulo.text = "¡Bienvenido $nombre!"
 
         // Al clickear en el botón, se muestra la actividad Top10
-        boton.setOnClickListener {
-            val intent = Intent(this, Top10Activity::class.java)
+        botonElegir.setOnClickListener {
+            val intent = Intent(this, ElegirAlbumActivity::class.java)
             startActivity(intent)
             true
         }

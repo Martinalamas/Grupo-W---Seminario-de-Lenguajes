@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
 
+    <!-- Permisos -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -13,18 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
 
-        <!-- Activity principal (lanza la app) -->
-        <activity
-            android:name=".Fragmento"
-            android:exported="false" />
-        <activity
-            android:name=".SegundoFragmento"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name=".PrimerFragmento"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
+        <activity android:name=".ElegirAlbumActivity" android:exported="false" />
+        <activity android:name=".Fragmento" android:exported="false" />
+        <activity android:name=".SegundoFragmento" android:exported="false" tools:ignore="Instantiatable" />
+        <activity android:name=".PrimerFragmento" android:exported="false" tools:ignore="Instantiatable" />
+
+        <!-- Activity principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -33,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".BienvenidaActivity" android:exported="false" />
         <activity android:name=".Top10Activity" android:exported="false" />
         <activity android:name=".PlaylistActivity" android:exported="false" />
@@ -44,6 +41,7 @@
         <activity android:name=".GraciasActivity" android:exported="false" />
         <activity android:name=".InicioSesion_Activity" android:exported="false" />
         <activity android:name=".DetalleCancionActivity" android:exported="false" />
+
     </application>
 
 </manifest>
