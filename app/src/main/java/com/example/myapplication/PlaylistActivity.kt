@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 
 class PlaylistActivity : AppCompatActivity() {
 
+    //Inicialización de variables
     lateinit var recyclerView: RecyclerView
     lateinit var cancionAdapter: CancionAdapter
     lateinit var descargar: Button
     lateinit var toolbar: Toolbar
 
-    // Ahora albumId se obtiene seguro desde el intent, o será null si no se pasa
+    // AlbumId se obtiene desde el intent o es null si no se pasa nada
     private val albumId: String? by lazy {
         intent?.getStringExtra("album_id")
     }
@@ -33,18 +34,21 @@ class PlaylistActivity : AppCompatActivity() {
             insets
         }
 
+        //Conecto las variables
         recyclerView = findViewById(R.id.recyclerView)
         descargar = findViewById(R.id.btnDescargar)
 
-        // Inicializo el Adapter pasando albumId nullable
+        // Inicializo el Adapter pasando albumId como nulo
         cancionAdapter = CancionAdapter(getCanciones(), this, albumId)
         recyclerView.adapter = cancionAdapter
 
+        //Toolbar
         toolbar = findViewById(R.id.toolbarTitulo)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Mis canciones favoritas"
 
+        //Si se toca la flecha, se vuelve a la pantalla anterior
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, BienvenidaActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -52,6 +56,7 @@ class PlaylistActivity : AppCompatActivity() {
             finish()
         }
 
+        //Al dar click en el botón descargar, se pasa a la pantalla para descargar las canciones
         descargar.setOnClickListener {
             val intent = Intent(this, DescargaYEscuchaActivity::class.java)
             startActivity(intent)
