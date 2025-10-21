@@ -82,5 +82,5 @@ En la segunda pantalla, al clickear el botón "Registrarse", se valida que:
 * **Agregar canción**: Para agregar una canción a la playlist, los usuarios deben escribir el nombre de la canción y del artista. Si alguno de los campos no está completo, aparece un mensaje de error. Para lograr esto, se utilizó la base de datos ROOM.
 * **Playlist**: Las canciones agregadas se visualizan en la playlist. A medida que son agregadas, van siendo incorporadas al final de la lista. Para lograr esto, se utilizó la base de datos ROOM.
 * **Mensaje final**: Una pantalla de agradecimiento por usar la aplicación. Además, cuenta con un botón que permite volver a visualizar el top 10 e ir a la pantalla de calificación.
-* **Califícanos**: Una pantalla final para que el usuario pueda calificar la aplicación, implementando el uso de fragmentos. En un principio, el usuario solo puede ver algo en la parte superior (Pregunta + Botón). Al tocar el botón "Califícanos", se abre el otro fragmento y se visualizan 5 estrellas, para dar la calificación.
+* **Califícanos**: Una pantalla final para que el usuario pueda calificar la aplicación, implementando el uso de fragmentos. En un principio, el usuario solo puede ver la parte superior (Pregunta + Botón). Al tocar el botón "Califícanos", se abre el otro fragmento y se visualizan 5 estrellas, para dar la calificación.
 
