@@ -104,12 +104,32 @@ class InicioSesion_Activity : AppCompatActivity() {
             }
         }
 
-        // CheckBox para recordar usuario
-        verificacionCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        // hacer algo cuando cambia el estado del CheckBox "Verificacion"
+        verificacionCheckBox.setOnCheckedChangeListener() { buttonView, isChecked ->
             if (isChecked) {
                 pedirPermisos()
                 crearCanalNotificaciones()
-                mostrarNotificacion(nombreUsuarioEditText.text.toString())
+                // Pido permisos
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.POST_NOTIFICATIONS
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // Si tiene permiso, muestro notificacion
+                        mostrarNotificacion(nombreUsuarioEditText.text.toString())
+                    } else {
+                        // Pedimos permiso
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                            101
+                        )
+                    }
+                } else {
+                    // Si el android es menor a 33, no necesito permisos
+                    mostrarNotificacion(nombreUsuarioEditText.text.toString())
+                }
                 Toast.makeText(this, "Se recordará el usuario", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "No se recordará el usuario", Toast.LENGTH_SHORT).show()

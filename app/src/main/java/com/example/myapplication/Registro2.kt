@@ -128,7 +128,7 @@ class Registro2 : AppCompatActivity() {
 
                     // Mensaje y navegación
                     Toast.makeText(this@Registro2, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@Registro2, Top10Activity::class.java))
+                    startActivity(Intent(this@Registro2, BienvenidaActivity::class.java))
                     finish()
                 }
             }
