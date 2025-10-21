@@ -29,7 +29,7 @@ import java.util.Locale
 class CancionAdapter(
     private val canciones: MutableList<Cancion>,
     private val context: Context,
-    private val albumId: String? // ahora puede ser null
+    private val albumId: String? 
 ) : RecyclerView.Adapter<CancionAdapter.CancionViewHolder>() {
 
     // Constantes y objetos de API
@@ -59,7 +59,7 @@ class CancionAdapter(
     }
 
     init {
-        // Solo llamamos a la API si albumId NO es null
+        // Llamamos a la API si albumId NO es null
         albumId?.let { id ->
             Thread {
                 try {
