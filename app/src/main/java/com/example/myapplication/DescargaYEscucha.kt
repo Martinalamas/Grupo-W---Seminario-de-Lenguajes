@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +21,7 @@ class DescargaYEscuchaActivity : AppCompatActivity() {
     lateinit var musicaSonando: TextView
     lateinit var botonSonar: Button
     lateinit var botonDescargar: Button
+    lateinit var toolbar : Toolbar
 
     var numeroCancion = 1
     var numeroDescarga = 1
@@ -37,6 +41,21 @@ class DescargaYEscuchaActivity : AppCompatActivity() {
         musicaDescarga = findViewById(R.id.musicaDescarga)
         botonSonar = findViewById(R.id.botonSonar)
         botonDescargar = findViewById(R.id.botonDescargar)
+        toolbar = findViewById(R.id.toolbarAtras)
+
+        //Establecimiento de la toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Atras"
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.spotify_green))
+
+        //Al dar click, vuelve a Registro
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, BienvenidaActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
+        }
 
         botonSonar.setOnClickListener {
             musicaSonando.setText("Suena la cancion numero $numeroCancion de tu Playlist")
@@ -44,7 +63,7 @@ class DescargaYEscuchaActivity : AppCompatActivity() {
         }
 
         botonDescargar.setOnClickListener {
-            musicaDescarga.setText("Descargando cancion numero $numeroDescarga ¡Próximamente podrás escucharla sin conexión!")
+            musicaDescarga.setText("Descargando cancion $numeroDescarga ¡Próximamente podrás escucharla sin conexión!")
             simularDescargaConCorrutinas(numeroDescarga)
             numeroDescarga++
         }

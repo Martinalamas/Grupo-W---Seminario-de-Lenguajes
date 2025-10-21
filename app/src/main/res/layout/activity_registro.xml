@@ -44,6 +44,7 @@
         android:background="@color/black"
         android:padding="10dp"
         android:hint="Nombre"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="18sp" />
 
@@ -68,6 +69,7 @@
         android:layout_marginBottom="15dp"
         android:background="@color/black"
         android:padding="10dp"
+        android:textColor="@color/white"
         android:hint="Apellido"
         android:textColorHint="@color/white"
         android:textSize="18sp" />
@@ -93,6 +95,7 @@
         android:layout_marginBottom="15dp"
         android:background="@color/black"
         android:padding="10dp"
+        android:textColor="@color/white"
         android:hint="Correo electronico"
         android:textColorHint="@color/white"
         android:textSize="18sp" />
@@ -120,6 +123,7 @@
         android:padding="10dp"
         android:hint="Fecha de nacimiento"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:focusable="false"
         android:clickable="true" />

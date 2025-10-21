@@ -52,9 +52,11 @@ class Top10Activity : AppCompatActivity() {
         rvTop10Activity = findViewById(R.id.rvTop10)
         rvTop10Activity.layoutManager = LinearLayoutManager(this)
 
+        // Obtenemos el albumId de la intención o ponemos uno por defecto
         val albumId = intent.getStringExtra("album_id") ?: "3i4nU0OIi7gMmXDEhG9ZRt"
 
-        cancionesAdapter = CancionAdapter(mutableListOf(), this,albumId)
+        // Inicializamos el adapter vacío; luego se llenará desde la API
+        cancionesAdapter = CancionAdapter(mutableListOf(), this, albumId)
         rvTop10Activity.adapter = cancionesAdapter
     }
 

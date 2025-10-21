@@ -13,3 +13,4 @@ data class Cancion(
     @ColumnInfo(name = "duracion") var duracion: String,
     @ColumnInfo(name = "imagen") var imagen: String? = null
 )
+

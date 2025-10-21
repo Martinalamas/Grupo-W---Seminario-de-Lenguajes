@@ -27,21 +27,15 @@ class DetalleCancionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.dc_duracion).text = duracion
 
         val ivPortada = findViewById<ImageView>(R.id.iv_portada)
+        if (!imagen.isNullOrEmpty()) {
+            Picasso.get().load(imagen).into(ivPortada)
+        }
 
-            if (!imagen.isNullOrEmpty()){
-                Picasso.get().load(imagen).into(ivPortada)
-            }
-
-        lateinit var botonVolver : AppCompatButton
-
-
-        botonVolver = findViewById<AppCompatButton>(R.id.botonVolver)
-
+        val botonVolver = findViewById<AppCompatButton>(R.id.botonVolver)
         botonVolver.setOnClickListener {
             val intent = Intent(this, Top10Activity::class.java)
             startActivity(intent)
         }
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

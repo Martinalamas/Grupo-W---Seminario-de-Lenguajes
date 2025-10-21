@@ -11,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 class GraciasActivity : AppCompatActivity() {
 
     lateinit var botonVolverTop10 : Button
+    lateinit var botonCalificar : Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,13 @@ class GraciasActivity : AppCompatActivity() {
         }
 
         botonVolverTop10 = findViewById(R.id.botonVolverTop10)
+        botonCalificar = findViewById(R.id.botonCalificar)
+
+        botonCalificar.setOnClickListener {
+            val intent = Intent(this, Fragmento::class.java)
+            startActivity(intent)
+
+        }
         botonVolverTop10.setOnClickListener {
             val intent = Intent(this, Top10Activity::class.java)
             startActivity(intent)
