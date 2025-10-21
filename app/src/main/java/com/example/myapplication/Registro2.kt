@@ -268,3 +268,4 @@ class Registro2 : AppCompatActivity() {
     }
 }
 
+
