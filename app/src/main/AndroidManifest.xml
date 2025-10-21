@@ -10,12 +10,10 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label= "Spotify"
+        android:label="Spotify"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication" >
-
-        <!-- Activity principal (lanza la app) -->
 
         <activity android:name=".ElegirAlbumActivity" android:exported="false" />
         <activity android:name=".Fragmento" android:exported="false" />
@@ -47,3 +45,4 @@
     </application>
 
 </manifest>
+
