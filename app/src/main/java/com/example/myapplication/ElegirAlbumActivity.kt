@@ -15,6 +15,7 @@ class ElegirAlbumActivity : AppCompatActivity() {
     lateinit var botonLali: Button
     lateinit var botonRedondos: Button
     lateinit var botonSoda: Button
+    lateinit var botonVolver: Button
 
     val albumMiranda = "4di9h6Igl1rbd0xtZfsyD6"
     val AlbumLali = "56BPpEYgadIVVXYLabO5Je"
@@ -31,6 +32,7 @@ class ElegirAlbumActivity : AppCompatActivity() {
             insets
         }
 
+        botonVolver = findViewById(R.id.btnVolver)
         botonMiranda = findViewById(R.id.albumMiranda)
         botonLali = findViewById(R.id.albumLali)
         botonRedondos = findViewById(R.id.albumRedondos)
@@ -51,6 +53,13 @@ class ElegirAlbumActivity : AppCompatActivity() {
         botonSoda.setOnClickListener {
             abrirAlbum(albumSoda)
         }
+
+        botonVolver.setOnClickListener{
+            val intent = Intent(this, BienvenidaActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 
     private fun abrirAlbum(albumId: String){

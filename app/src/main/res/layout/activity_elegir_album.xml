@@ -31,7 +31,7 @@
         android:id="@+id/idSub"
         android:layout_width="match_parent"
         android:layout_height="31dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="¿Qué quieres escuchar hoy?"
         android:textColor="@color/spotify_green"
@@ -77,13 +77,27 @@
     <Button
         android:id="@+id/albumSoda"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
-        android:textSize="17dp"
-        android:text="SODA STEREO"
+        android:layout_marginRight="60dp"
+        android:backgroundTint="@color/spotify_green"
         android:gravity="center"
-        android:backgroundTint="@color/spotify_green" />
+        android:text="SODA STEREO"
+        android:textSize="17dp" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="60dp"
+        android:backgroundTint="@color/spotify_green"
+        android:gravity="center"
+        android:text="VOLVER"
+        android:textSize="17dp"
+
+        app:icon="@drawable/linea_izquierda" />
 
 </LinearLayout>

@@ -25,6 +25,7 @@ class DetalleCancionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.DNombreCancion).text = titulo
         findViewById<TextView>(R.id.DArtista).text = artista
         findViewById<TextView>(R.id.dc_duracion).text = duracion
+
         val ivPortada = findViewById<ImageView>(R.id.iv_portada)
 
             if (!imagen.isNullOrEmpty()){
