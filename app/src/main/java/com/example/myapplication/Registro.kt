@@ -6,22 +6,25 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import java.util.Locale
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class Registro : AppCompatActivity() {
 
-    //Declaración de variables
-    lateinit var nombre : EditText
-    lateinit var apellido : EditText
-    lateinit var correo : EditText
-    lateinit var fecha : EditText
-    lateinit var continuar : Button
+    private lateinit var nombre: EditText
+    private lateinit var apellido: EditText
+    private lateinit var correo: EditText
+    private lateinit var fecha: EditText
+    private lateinit var continuar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,30 +36,27 @@ class Registro : AppCompatActivity() {
             insets
         }
 
-        //Vinculación
+        // Vinculación con los elementos del layout
         nombre = findViewById(R.id.idNombre)
-        apellido= findViewById(R.id.idApellido)
+        apellido = findViewById(R.id.idApellido)
         correo = findViewById(R.id.idEmail)
         fecha = findViewById(R.id.idFecha)
         continuar = findViewById(R.id.btnContinuar)
 
-        //Vinculación base de datos
+        // Instancia de la base de datos
         val bd = AppDataBase.getDatabase(this)
         val usuarioDao = bd.usuarioDao()
 
-        //Al dar click, aparece el calendario para seleccionar la fecha de nacimiento
-        fecha.setOnClickListener{
-            mostrarFecha()
-        }
+        // Mostrar calendario al tocar el EditText de fecha
+        fecha.setOnClickListener { mostrarFecha() }
 
-        //Validaciones y navegación a Registro2
-        continuar.setOnClickListener{
+        continuar.setOnClickListener {
             val nombreString = nombre.text.toString()
             val apellidoString = apellido.text.toString()
             val correoString = correo.text.toString()
             val fechaString = fecha.text.toString()
 
-            //Validación de campos
+            // Validación de campos vacíos
             if (nombreString.isEmpty() || apellidoString.isEmpty() || correoString.isEmpty() || fechaString.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
                 if (nombreString.isEmpty()) nombre.error = "Por favor, ingrese su nombre" else nombre.error = null
@@ -66,43 +66,45 @@ class Registro : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            //Validación de correo
+            // Validación básica de correo
             if (!correoString.contains("@")) {
-                Toast.makeText(this, "Debe ingresar un correo valido", Toast.LENGTH_SHORT).show()
-                correo.error = "Por favor, ingresar un correo valido"
+                correo.error = "Por favor, ingresar un correo válido"
+                Toast.makeText(this, "Debe ingresar un correo válido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            } else {
-                correo.error = null
-            }
+            } else correo.error = null
 
-            //Validacion correo registrado
-            val usuarioRegistrado = usuarioDao.getUsuarioPorCorreo(correoString)
-            if (usuarioRegistrado != null) {
-                correo.error = "El correo ya está registrado"
-                return@setOnClickListener
-            }
-
-            //Validación de edad
+            // Validación de edad
             val edad = calcularEdad(fechaString)
-            if (fechaString.isNotEmpty() && edad < 13) {
+            if (edad < 13) {
                 fecha.error = "Debes tener al menos 13 años"
                 Toast.makeText(this, "Debes tener al menos 13 años para registrarte", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            //Intent a Registro2
-            Toast.makeText(this, "Continuaremos con tu registro", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, Registro2::class.java)
-            intent.putExtra("nombre", nombreString)
-            intent.putExtra("apellido", apellidoString)
-            intent.putExtra("email", correoString)
-            intent.putExtra("fecha", fechaString)
-            startActivity(intent)
-            finish()
+            // Comprobar si el correo ya está registrado usando coroutines
+            CoroutineScope(Dispatchers.IO).launch {
+                val usuarioExistente = usuarioDao.getUsuarioPorCorreo(correoString)
+                withContext(Dispatchers.Main) {
+                    if (usuarioExistente != null) {
+                        correo.error = "El correo ya está registrado"
+                        return@withContext
+                    }
+
+                    // Todo ok, navegar a Registro2
+                    Toast.makeText(this@Registro, "Continuaremos con tu registro", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@Registro, Registro2::class.java).apply {
+                        putExtra("nombre", nombreString)
+                        putExtra("apellido", apellidoString)
+                        putExtra("email", correoString)
+                        putExtra("fecha", fechaString)
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
     }
 
-    //Función para mostrar el calendario
     private fun mostrarFecha() {
         val calendario = Calendar.getInstance()
         val anioActual = calendario.get(Calendar.YEAR)
@@ -115,39 +117,29 @@ class Registro : AppCompatActivity() {
                 val calendarioSeleccionado = Calendar.getInstance()
                 calendarioSeleccionado.set(anioSeleccionado, mesSeleccionado, diaSeleccionado)
                 val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val fechaFormateada = formatoFecha.format(calendarioSeleccionado.time)
-                fecha.setText(fechaFormateada)
+                fecha.setText(formatoFecha.format(calendarioSeleccionado.time))
                 fecha.error = null
-            },
-            anioActual,
-            mesActual,
-            diaActual
+            }, anioActual, mesActual, diaActual
         )
-
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
     }
 
-    //Función para calcular la edad
     private fun calcularEdad(fechaNacimiento: String): Int {
         if (fechaNacimiento.isEmpty()) return 0
         val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val fechaNacimientoDate = formatoFecha.parse(fechaNacimiento) ?: return 0
 
-        val fechaNacimientoCalendar = Calendar.getInstance()
-        fechaNacimientoCalendar.time = fechaNacimientoDate
+        val nacimientoCal = Calendar.getInstance()
+        nacimientoCal.time = fechaNacimientoDate
+        val hoy = Calendar.getInstance()
+        var edad = hoy.get(Calendar.YEAR) - nacimientoCal.get(Calendar.YEAR)
 
-        val fechaActualCalendar = Calendar.getInstance()
-        var edad = fechaActualCalendar.get(Calendar.YEAR) - fechaNacimientoCalendar.get(Calendar.YEAR)
-
-        if (fechaActualCalendar.get(Calendar.MONTH) < fechaNacimientoCalendar.get(Calendar.MONTH) ||
-            (fechaActualCalendar.get(Calendar.MONTH) == fechaNacimientoCalendar.get(Calendar.MONTH) &&
-                    fechaActualCalendar.get(Calendar.DAY_OF_MONTH) < fechaNacimientoCalendar.get(Calendar.DAY_OF_MONTH))) {
+        if (hoy.get(Calendar.MONTH) < nacimientoCal.get(Calendar.MONTH) ||
+            (hoy.get(Calendar.MONTH) == nacimientoCal.get(Calendar.MONTH) &&
+                    hoy.get(Calendar.DAY_OF_MONTH) < nacimientoCal.get(Calendar.DAY_OF_MONTH))) {
             edad--
         }
-
         return edad
     }
 }
-
-

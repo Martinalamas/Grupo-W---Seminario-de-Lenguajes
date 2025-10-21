@@ -48,28 +48,27 @@ class BienvenidaActivity : AppCompatActivity() {
         botonElegir.setOnClickListener {
             val intent = Intent(this, ElegirAlbumActivity::class.java)
             startActivity(intent)
-            true
         }
 
         // Al clickear en el botón de atrás, se muestra la actividad Iniciar sesión
         botonAtras.setOnClickListener {
             val intent = Intent(this, InicioSesion_Activity::class.java)
             startActivity(intent)
-            true
+
         }
 
         // Al clickear el botón agregar, se muestra la actividad AgregarCancion
         botonAgregar.setOnClickListener {
             val intent = Intent(this, AgregarCancion::class.java)
             startActivity(intent)
-            true
+
         }
 
         // Al clickear el botón playlist, se muestra la actividad Playlist
         botonPlaylist.setOnClickListener {
             val intent = Intent(this, PlaylistActivity::class.java)
             startActivity(intent)
-            true
+
         }
     }
 }

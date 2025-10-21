@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/item_playlist"
-        android:title="Mi playlist"
+        android:title="Agregar canción"
         app:showAsAction="never"/>
 
     <item

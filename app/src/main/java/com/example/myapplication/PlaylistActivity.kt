@@ -17,7 +17,10 @@ class PlaylistActivity : AppCompatActivity() {
     lateinit var descargar: Button
     lateinit var toolbar: Toolbar
 
-    val albumId = intent.getStringExtra("album_id") ?: "3i4nU0OIi7gMmXDEhG9ZRt"
+    // Ahora albumId se obtiene seguro desde el intent, o será null si no se pasa
+    private val albumId: String? by lazy {
+        intent?.getStringExtra("album_id")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,8 @@ class PlaylistActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         descargar = findViewById(R.id.btnDescargar)
+
+        // Inicializo el Adapter pasando albumId nullable
         cancionAdapter = CancionAdapter(getCanciones(), this, albumId)
         recyclerView.adapter = cancionAdapter
 

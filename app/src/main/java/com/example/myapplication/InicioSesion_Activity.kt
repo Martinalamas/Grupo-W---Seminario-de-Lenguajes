@@ -1,8 +1,5 @@
 package com.example.myapplication
 
-import com.example.myapplication.BienvenidaActivity
-import com.example.myapplication.MainActivity
-import com.example.myapplication.R
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -22,24 +19,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class InicioSesion_Activity : AppCompatActivity() {
 
-    // Declara las variables para las vistas
-    lateinit var nombreUsuarioEditText: EditText
-    lateinit var contrasenaEditText: EditText
-    lateinit var verificacionCheckBox: CheckBox
-    lateinit var botonInicioSesion: Button
-
+    private lateinit var nombreUsuarioEditText: EditText
+    private lateinit var contrasenaEditText: EditText
+    private lateinit var verificacionCheckBox: CheckBox
+    private lateinit var botonInicioSesion: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_inicio_sesion)
@@ -49,119 +44,72 @@ class InicioSesion_Activity : AppCompatActivity() {
             insets
         }
 
-        // Inicializa las vistas usando findViewById
+        // Inicializar vistas
         nombreUsuarioEditText = findViewById(R.id.NombreUsuario)
         contrasenaEditText = findViewById(R.id.Contrasena)
         verificacionCheckBox = findViewById(R.id.Verificacion)
+        botonInicioSesion = findViewById(R.id.BotonInicioSesion)
 
-        // Recuperar las preferencias de inicio de sesión
-        var preferencias = getSharedPreferences(resources.getString(R.string.sp_credenciales), MODE_PRIVATE)
-        var nombreGuardado = preferencias.getString(resources.getString(R.string.nombre), "")
-        var passwordGuardada = preferencias.getString(resources.getString(R.string.password), "")
+        // Recuperar preferencias
+        val preferencias = getSharedPreferences(resources.getString(R.string.sp_credenciales), MODE_PRIVATE)
+        val nombreGuardado = preferencias.getString(resources.getString(R.string.nombre), "")
+        val passwordGuardada = preferencias.getString(resources.getString(R.string.password), "")
 
-        // Mostrar las preferencias si existen -> quedan escritas
-        if (nombreGuardado!!.isNotEmpty() && passwordGuardada!!.isNotEmpty()) {
+        if (!nombreGuardado.isNullOrEmpty() && !passwordGuardada.isNullOrEmpty()) {
             nombreUsuarioEditText.setText(nombreGuardado)
             contrasenaEditText.setText(passwordGuardada)
             verificacionCheckBox.isChecked = true
         }
 
-
-        botonInicioSesion = findViewById(R.id.BotonInicioSesion)
-
-        // Obtener la instancia de la base de datos
+        // Instancia de la base de datos
         val bd = AppDataBase.getDatabase(this)
         val usuarioDao = bd.usuarioDao()
 
-        // Configurar el listener para el botón de Iniciar Sesión
         botonInicioSesion.setOnClickListener {
-
             val nombreUsuario = nombreUsuarioEditText.text.toString()
             val contrasena = contrasenaEditText.text.toString()
             val recordarUsuario = verificacionCheckBox.isChecked
-            val contrasenaRegistrada = usuarioDao.getContraseña(nombreUsuario)
-            val usuarioRegistrado = usuarioDao.getUsuarioPorNombre(nombreUsuario)
 
-
-            //  Lógica de Validación (Ejemplo Básico)
             if (nombreUsuario.isEmpty()) {
                 nombreUsuarioEditText.error = "El nombre de usuario no puede estar vacío"
-                return@setOnClickListener // Sale del listener si hay error
+                return@setOnClickListener
             }
-
-
             if (contrasena.isEmpty()) {
                 contrasenaEditText.error = "La contraseña no puede estar vacía"
-                return@setOnClickListener // Sale del listener si hay error
+                return@setOnClickListener
             }
 
+            // Llamada segura a la base de datos
+            CoroutineScope(Dispatchers.IO).launch {
+                val usuarioRegistrado = usuarioDao.getUsuarioPorNombre(nombreUsuario)
+                val contrasenaRegistrada = usuarioDao.getContraseña(nombreUsuario)
 
-            //Inicio de sesion.
+                withContext(Dispatchers.Main) {
+                    if (usuarioRegistrado == null) {
+                        nombreUsuarioEditText.error = "El usuario no existe"
+                        return@withContext
+                    }
 
+                    if (contrasenaRegistrada != contrasena) {
+                        contrasenaEditText.error = "Contraseña incorrecta"
+                        return@withContext
+                    }
 
-            //Se valida que el usuario aparece en la base de datos
-            if (usuarioRegistrado != null) {
+                    // Guardar preferencias si está marcado
+                    if (recordarUsuario) login(nombreUsuario, contrasena)
 
-                //Se valida que la contraseña sea la correcta
-                if (contrasenaRegistrada != contrasena) {
-                    contrasenaEditText.error = "La contraseña es incorrecta"
-                    return@setOnClickListener // Sale del listener si hay error
-
+                    Toast.makeText(this@InicioSesion_Activity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                    iniciarBienvenida(nombreUsuario)
                 }
-
-                // Si recordar inicio esta check, se guardan las preferencias
-                if (recordarUsuario) {
-                    login(nombreUsuario, contrasena)
-                    Toast.makeText(this, "Se recordará el usuario.", Toast.LENGTH_SHORT).show()
-
-
-
-                }
-
-                // Si no, se borran las preferencias
-                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_LONG).show()
-                iniciarBienvenida(nombreUsuario)
-                } else {
-                    // Si el usuario no existe, se muestra un mensaje
-                nombreUsuarioEditText.error = "El nombre de usuario no existe"
-
-
-
-
-
-
-
-
             }
         }
 
-
-        // hacer algo cuando cambia el estado del CheckBox "Verificacion"
-        verificacionCheckBox.setOnCheckedChangeListener() { buttonView, isChecked ->
+        // CheckBox para recordar usuario
+        verificacionCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 pedirPermisos()
                 crearCanalNotificaciones()
-                // Pido permisos
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    if (ActivityCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.POST_NOTIFICATIONS
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        // Si tiene permiso, muestro notificacion
-                        mostrarNotificacion(nombreUsuarioEditText.text.toString())
-                    } else {
-                        // Pedimos permiso
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                            101
-                        )
-                    }
-                } else {
-                    // Si el android es menor a 33, no necesito permisos
-                    mostrarNotificacion(nombreUsuarioEditText.text.toString())
-                }
+                mostrarNotificacion(nombreUsuarioEditText.text.toString())
                 Toast.makeText(this, "Se recordará el usuario", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "No se recordará el usuario", Toast.LENGTH_SHORT).show()
@@ -169,67 +117,43 @@ class InicioSesion_Activity : AppCompatActivity() {
         }
     }
 
-    //Funcion para iniciar la actividad Bienvenida
-    private fun iniciarBienvenida (Usuario : String) {
+    private fun iniciarBienvenida(usuario: String) {
         val intent = Intent(this, BienvenidaActivity::class.java)
-        intent.putExtra(resources.getString(R.string.nombre), Usuario)
+        intent.putExtra(resources.getString(R.string.nombre), usuario)
         startActivity(intent)
         finish()
     }
 
-    //Funcion para guardar las preferencias de inicio de sesion
-    private fun login(Usuario : String, Password : String) {
-        var preferencias = getSharedPreferences(resources.getString(R.string.sp_credenciales), MODE_PRIVATE)
-
+    private fun login(usuario: String, password: String) {
+        val preferencias = getSharedPreferences(resources.getString(R.string.sp_credenciales), MODE_PRIVATE)
         preferencias.edit().apply {
-            putString(resources.getString(R.string.nombre), Usuario)
-            putString(resources.getString(R.string.password), Password)
+            putString(resources.getString(R.string.nombre), usuario)
+            putString(resources.getString(R.string.password), password)
             apply()
         }
-
-
     }
 
-    //Funcion para pedir permiso
     private fun pedirPermisos() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // Si no tiene permiso, lo solicita
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    101
-                )
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101)
             }
         }
     }
 
-    //Funcion para crear el canal de notificaciones
-    private fun crearCanalNotificaciones(){
+    private fun crearCanalNotificaciones() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "1",
-                "Canal Recordatorio",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
+            val channel = NotificationChannel("1", "Canal Recordatorio", NotificationManager.IMPORTANCE_DEFAULT)
             channel.description = "Canal para notificar recordatorios"
-
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
         }
     }
 
-    //Funcion para mostrar la notificacion
-    @RequiresPermission(value = "android.permission.POST_NOTIFICATIONS")
-    private fun mostrarNotificacion(Usuario : String) {
-
-        // Crear el intent para abrir la actividad
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    private fun mostrarNotificacion(usuario: String) {
         val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent,
+            this, 0, Intent(this, BienvenidaActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -238,27 +162,20 @@ class InicioSesion_Activity : AppCompatActivity() {
             this, 0,
             Intent(this, BienvenidaActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra(resources.getString(R.string.nombre), Usuario)
+                putExtra(resources.getString(R.string.nombre), usuario)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // Crear la notificacion y configuro estilo y textos
-        val builder = NotificationCompat.Builder(this, "1")
-
-            .setSmallIcon(R.drawable.ic_notificacion)
-
-        //Creo icono grande
         val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
-        builder.setLargeIcon(largeIcon)
-
+        val builder = NotificationCompat.Builder(this, "1")
+            .setSmallIcon(R.drawable.ic_notificacion)
+            .setLargeIcon(largeIcon)
             .setContentTitle("Sesión recordada")
             .setContentText("Tu usuario ha sido recordado exitosamente.")
-            .setStyle(
-                NotificationCompat.BigTextStyle().bigText(
-                    "Tu usuario ha sido recordado exitosamente. Si quieres desactivar esta opción, vuelve a iniciar sesión."
-                )
-            )
+            .setStyle(NotificationCompat.BigTextStyle().bigText(
+                "Tu usuario ha sido recordado exitosamente. Si quieres desactivar esta opción, vuelve a iniciar sesión."
+            ))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setColor(ContextCompat.getColor(this, R.color.spotify_green))
             .setContentIntent(pendingIntent)
@@ -271,10 +188,5 @@ class InicioSesion_Activity : AppCompatActivity() {
 
         NotificationManagerCompat.from(this).notify(0, builder.build())
     }
-
-
-
-
-
-
 }
+
