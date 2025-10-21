@@ -21,6 +21,9 @@ class PlaylistActivity : AppCompatActivity() {
 
     lateinit var toolbar : Toolbar
 
+    val albumId = intent.getStringExtra("album_id") ?: "3i4nU0OIi7gMmXDEhG9ZRt"
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,7 @@ class PlaylistActivity : AppCompatActivity() {
         //Vinculacion de las variables con su ID
         recyclerView = findViewById(R.id.recyclerView)
         descargar = findViewById(R.id.btnDescargar)
-        cancionAdapter = CancionAdapter(getCanciones(), this)
+        cancionAdapter = CancionAdapter(getCanciones(), this,albumId)
         recyclerView.adapter = cancionAdapter
 
         //Establecimiento de la toolbar

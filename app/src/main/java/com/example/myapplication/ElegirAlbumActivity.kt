@@ -51,12 +51,12 @@ class ElegirAlbumActivity : AppCompatActivity() {
         botonSoda.setOnClickListener {
             abrirAlbum(albumSoda)
         }
-
-            private fun abrirAlbum(albumId: String){
-                val intent = Intent(this,Top10Activity::class.java)
-                intent.putExtra("album_id",albumId)
-                startActivity(intent)
-            }
-
     }
+
+    private fun abrirAlbum(albumId: String){
+        val intent = Intent(this,Top10Activity::class.java)
+        intent.putExtra("album_id",albumId)
+        startActivity(intent)
+    }
+
 }

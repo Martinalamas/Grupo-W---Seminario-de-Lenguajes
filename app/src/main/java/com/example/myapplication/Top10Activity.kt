@@ -47,12 +47,14 @@ class Top10Activity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.toolbarTop10)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Top 10"
+        supportActionBar?.title = "Spotify Álbum"
 
         rvTop10Activity = findViewById(R.id.rvTop10)
         rvTop10Activity.layoutManager = LinearLayoutManager(this)
 
-        cancionesAdapter = CancionAdapter(mutableListOf(), this)
+        val albumId = intent.getStringExtra("album_id") ?: "3i4nU0OIi7gMmXDEhG9ZRt"
+
+        cancionesAdapter = CancionAdapter(mutableListOf(), this,albumId)
         rvTop10Activity.adapter = cancionesAdapter
     }
 

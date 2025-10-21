@@ -33,7 +33,7 @@ class CancionAdapter(
 
     private val CLIENT_ID = "8e99a10c7de94bbea433e50b5d4e9ad5"
     private val CLIENT_SECRET = "f05d71479a514ff083d2dd14d57a48b1" // CLIENTID y CLIENTSECRET son credenciales necesarias para implementar la api de spotify
-    private val LIMIT_TRACKS = 10
+    private val LIMIT_TRACKS = 20
 
 
     private val moshi = Moshi.Builder()
@@ -70,10 +70,11 @@ class CancionAdapter(
     data class Artist(val name: String?)
 
     interface SpotifyApiService {
-        @GET
+        @GET ("v1/albums/{album_id}/tracks")
         fun getAlbumTracks(
             @Header("Authorization") auth: String,
-            @Query("limit") limit: Int = 10
+            @Path("album_id") albumId: String,
+            @Query("limit") limit: Int = 20
         ): Call<AlbumResponse>
     }
 
@@ -94,7 +95,7 @@ class CancionAdapter(
                 val json = org.json.JSONObject(resp.body?.string().orEmpty())
                 val token = json.optString("access_token", "")
 
-                val call = apiService.getAlbumTracks("Bearer $token", LIMIT_TRACKS)
+                val call = apiService.getAlbumTracks("Bearer $token", albumId,LIMIT_TRACKS)
                 val response: Response<AlbumResponse> = call.execute()
 
                 val bodyAlbum = response.body()
@@ -119,7 +120,7 @@ class CancionAdapter(
                     canciones.clear()
                     canciones.addAll(nuevas)
                     notifyDataSetChanged()
-                    Toast.makeText(context, "Top ${nuevas.size} cargado correctamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "${nuevas.size} canciones cargadas correctamente", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 (context as? Activity)?.runOnUiThread {
