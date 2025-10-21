@@ -123,6 +123,7 @@
         android:padding="10dp"
         android:hint="Fecha de nacimiento"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:focusable="false"
         android:clickable="true" />

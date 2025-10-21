@@ -1,16 +1,27 @@
 package com.example.myapplication
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 
 class Registro2 : AppCompatActivity() {
@@ -67,13 +78,22 @@ class Registro2 : AppCompatActivity() {
         val nombre = intent.getStringExtra("nombre")
         val apellido = intent.getStringExtra("apellido")
 
+
         //Muestro mensaje personalizado
         titulo.text = "¡Bienvenido $nombre $apellido!"
 
         //Al dar click, se validan los campos y si son validos, se muestra un mensaje de confirmacion
-        btnRegistrar.setOnClickListener{
+        btnRegistrar.setOnClickListener {
+            val nombreAnt = intent.getStringExtra("nombre")
+            val correo = intent.getStringExtra("email")
+            val fecha = intent.getStringExtra("fecha")
+            val apellidoAnt = intent.getStringExtra("apellido")
             val contraString = contra.text.toString()
             val contra2String = contra2.text.toString()
+            val nombreUsuario = nombreUsuarioEditText.text.toString()
+
+
+
 
             if (contraString.isEmpty() || contra2String.isEmpty()) {
                 contra.error = "Por favor, ingrese una contraseña"
@@ -83,26 +103,90 @@ class Registro2 : AppCompatActivity() {
                 contra2.error = "Las contraseñas no coinciden"
             } else {
 
-                val nombreUsuario = nombreUsuarioEditText.text.toString()
-                guardarDatosUsuario(nombreUsuario, contraString)
+                //Conexion base de datos
+                val db = AppDataBase.getDatabase (this)
+                val usuarioDao = db.usuarioDao()
 
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, Top10Activity::class.java)
-                startActivity(intent)
-                finish()
-            }
+
+                //Hilo para validar si el usuario ya existe
+                Thread {
+
+                  try {
+                    val existente = usuarioDao.getUsuarioPorNombre(nombreUsuario)
+                    runOnUiThread {
+                        //Si el usuario ya existe, se muestra un error
+                        if (existente != null) {
+                            nombreUsuarioEditText.error = "El usuario ya existe"
+                        } else {
+                            //Si no el usuario no existe, se guardan sus datos
+                            val nuevoUsuario = Usuario(
+                                usuario = nombreUsuario,
+                                contraseña = contraString,
+                                nombre = nombreAnt.toString(),
+                                apellido = apellidoAnt.toString(),
+                                email = correo.toString(),
+                                fechaNacimiento = fecha.toString()
+
+                            )
+                            usuarioDao.insertUsuario(nuevoUsuario)
+
+                            // Guardar SharedPreferences y notificación
+                            guardarDatosUsuario(nombreUsuario, contraString)
+
+                            // Muestro mensaje de registro exitoso
+                            runOnUiThread {
+                                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, Top10Activity::class.java))
+                                finish()
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }.start()
+
+
         }
     }
 
-    //  Funcion para manejar la logica de SharedPreferences yrecibe el nombre de usuario y la contraseña
+    }
+
+
+    //  Funcion para manejar la logica de SharedPreferences y recibe el nombre de usuario y la contraseña
     private fun guardarDatosUsuario(nombreUsuario: String?, contra: String?) {
         val editor = sharedPreferences.edit()
         editor.putBoolean("recordar_sesion", switchRecordarSesion.isChecked)
 
         if(switchRecordarSesion.isChecked) {
-            // CAMBIO: Guardamos el nombre de usuario que se ingresó en el EditText
+
+
             editor.putString(getString(R.string.nombre), nombreUsuario)
-            editor.putString(getString(R.string.password), contra) // ADVERTENCIA DE SEGURIDAD
+            editor.putString(getString(R.string.password), contra)
+
+            //Creamos canal de notificaciones
+            crearCanalNotificaciones()
+
+            // Pido permisos
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    mostrarNotificacion(nombreUsuarioEditText.text.toString())
+                } else {
+                    // Pedimos permiso
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        101
+                    )
+                }
+            } else {
+                // Si el android es menor a 33, no necesito permisos
+                mostrarNotificacion(nombreUsuarioEditText.text.toString())
+            }
         } else {
             editor.clear()
         }
@@ -119,4 +203,68 @@ class Registro2 : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    // Funcion para crear el canal de notificaciones
+    private fun crearCanalNotificaciones(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "1",
+                "Canal Recordatorio",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.description = "Canal para notificar recordatorios"
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    //Funcion para mostrar notificacion
+    @RequiresPermission(value = "android.permission.POST_NOTIFICATIONS")
+    private fun mostrarNotificacion(Usuario : String) {
+
+        // Crear el intent para abrir la actividad
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // Crear el intent para cerrar la actividad
+        val ignorePendingIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, BienvenidaActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra(resources.getString(R.string.nombre), Usuario) // 👈 agregar esto
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        //Creo la notificacion y configuro estilo y textos
+        val builder = NotificationCompat.Builder(this, "1")
+            .setSmallIcon(R.drawable.ic_notificacion)
+
+            //Creo icono grande
+        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.logo2)
+        builder.setLargeIcon(largeIcon)
+
+            .setContentTitle("Sesión recordada")
+            .setContentText("Tu usuario ha sido recordado exitosamente.")
+            .setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                    "Tu usuario ha sido recordado exitosamente. Si quieres desactivar esta opción, vuelve a iniciar sesión."
+                )
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setColor(ContextCompat.getColor(this, R.color.spotify_green))
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .addAction(
+                R.drawable.ic_notificacion,
+                "Ir a la app",
+                ignorePendingIntent
+            )
+
+        NotificationManagerCompat.from(this).notify(0, builder.build())
+    }
 }
+

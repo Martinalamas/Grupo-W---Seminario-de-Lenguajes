@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context=".DetalleCancionActivity">
 
+
     <TextView
         android:id="@+id/DNombreCancion"
         android:layout_width="wrap_content"
